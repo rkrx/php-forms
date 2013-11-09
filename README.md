@@ -4,7 +4,7 @@ php-flexible-forms
 Introduction
 ------------
 
-There are many php based form classes out there. I have used many of them and visited even more before I decided to develop my own approach. So this project is based an the experience and covers mostly my own needs.
+There are many php based form classes out there. I have used many of them and visited even more before I decided to develop my own approach. So this project is based on some experience and covers mostly my own needs.
 
 This project covers:
 --------------------
@@ -21,7 +21,7 @@ How I want to archive this:
 * PHP 5.4+ (Short array syntax, $this in lamdas and closures)
 * Reasonably+ clean architecture
 * The interface should be as intuitive as possible
-* No static boundaries where you need to hack to gain additional functionality
+* No static boundaries where you need hacks to gain additional functionality
 * Build-in and ready-to-use templating adapter
 * Build-in and ready-to-use dictionary adapter
 * As much IDE control as possible (at least with PHPStorm: Full inspection)
