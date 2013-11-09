@@ -52,21 +52,21 @@ $array = [
 
 Fairly simple. Hope you noticed there are two inner arrays.
 
-This data should now be edited. Some assumptions should be made first:
+This data now gets edited. Some assumptions should be made first:
 
-* A ```name``` should not be longer then 30 chars, but not shorter than 2. White-space character should be ignored.
-* ```birthday``` should be edited as a date.
+* A ```name``` must not be longer then 30 chars, but also not shorter than 2 chars. White-space character should be ignored.
+* ```birthday``` should be edited as a date - eg with a date picker.
 * ```contact.email``` and ```contact.phone``` should be displayed on the same level like ```name``` and ```birthday```.
 * The ```contact.email``` should be a valid E-Mail-Address.
-* For every quote, there is a text-input. You should be able to click on a ````[Add]``` button to generate a new input field.
+* For every quote, there is a text-input. You should be able to click on a ```[Add]``` button to generate a new input field.
 * ```image_url``` should be handled by a image upload control with some post-processing and ftp operations.
 
 We can extract 4 different entry points for our form creation process:
 
-* Initial creation, where we have (possibly) no data at all. Form generates the html.
+* The initial creation, where we have (possibly) no data at all. Form generates html.
 * Editing existing data. Form also generates the html, but this time there is data to fill in.
 * Modifing the form structure without (re-)validation. This step is optional.
-* Converting and validating edited data. If validation fails, the form should be redisplayed with some hints attached.
+* Converting and validating edited data. If the validation fails, the form should be re-displayed with some hints attached.
 
 So, what does it mean to "create" a form or convert and validate data or even modifying the structure?
 
@@ -74,7 +74,7 @@ So, what does it mean to "create" a form or convert and validate data or even mo
 
 We need to setup the form and tell which elements to use. In this example we need some Textfields (````name```, ```contact.email```, ```contact.phone```), a Datefield (```birthdate```), even more Textfields (```quotes```) and an Image upload handler. Since we have a dynamic amount of quotes, we cant simple stick some elements together and go on. Our form relies on our data.
 
-But there is another possible problem. The data which was held by our form is likely different formatted than the input was. You'll need to convert the data back to the original-format (data conversion is described in the next section). But to do this, you'll need the components installed to do this.
+But there is another possible problem. The data which was held by our form is likely different formatted than the input was. You'll need to convert the data back to the original-format (data conversion is described in the next section). But to do so, you'll need the components installed already.
 
 We have a 2 step process to get this done. We call the ```$form->build()```-method to store our data and initialize the components:
 
