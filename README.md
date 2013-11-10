@@ -35,7 +35,7 @@ So, there is a simple array:
 
 ```php
 $array = [
-	'name' => 'Steve Martin',
+	'firstname' => 'Steve', 'lastname' => 'Martin',
 	'birthday' => '1945-08-14',
 	'contact' => [
 		'email' => 'steve.martin@bar.baz',
@@ -82,6 +82,46 @@ We have a 2 step process to get this done. We call the ```$form->build()```-meth
 * The data is stored in the internal storage.
 * The (optional) post-build process changes the layout based on the data.
 
+```PHP
+use FForms\Element;
+use FForms\Container;
+use FForms\Validator;
+use FForms\Filter;
+
+PersonForm extends Container\Form {
+	public function preInit() {
+		$this->root()
+		->set($this->create(Container\Tab::class, ['caption' => 'Basic data'])
+			->add($this->create(Container\Box::class, ['width' => 'half'])
+				->add($this->create(Element\Label::class, ['title' => 'Name'])
+					->add($this->create(Element\Textfield::class, ['path' => 'firstname', 'title' => 'Firstname', 'width' => 'half', 'filters' => 'trim', 'validators' => 'required|mask:alpha|min:5|max:32']))
+					->add($this->create(Element\Textfield::class, ['path' => 'surname', 'title' => 'Surname', 'width' => 'half', 'filters' => 'trim', 'validators' => 'required|mask:alpha|min:5|max:32']))
+				)->add($this->create(Element\Label::class, ['text' => 'Name'])
+					->add($this->create(Element\Datefield::class, ['path' => 'birthday', 'title' => 'Birthday', 'filters' => 'trim', 'validators' => 'min:1900-01-01']))
+				)
+			)->add($this->create(Container\Box::class, ['width' => 'half'])
+				->add($this->create(Container\Label::class, ['text' => 'E-Mail'])
+					->add($this->create(Element\Textfield::class, ['path' => ['contact', 'email'], 'title' => 'E-Mail', 'filters' => 'trim', 'validators' => 'required|mask:email']))
+				)->add($this->create(Element\Label::class, ['title' => 'Phone'])
+					->add($this->create(Element\Textfield::class, ['path' => ['contact', 'phone'], 'title' => 'Phone', 'filters' => 'trim', 'validators' => 'mask:phone']))
+				)
+			)
+		)->add($this->create(Container\Tab::class, ['caption' => 'Quotes', 'id' => 'quotes']);
+
+		$this->root()->find('*')
+		->addFilter($this->create(Filter\Html::class));
+	}
+
+	public function postInit(Data $data) {
+		$quotes = $data->getArray(['quotes'], []);
+		$container = $this->root()->find('#quotes')
+
+		foreach($quotes as $key => $quote) {
+			$container->add($this->create(Element\Textfield::class, ['path' => ['quotes', $key], 'title' => '']));
+		}
+	}
+}
+```
 
 ### Converting data
 
