@@ -94,16 +94,43 @@ PersonForm extends Container\Form {
 		->set($this->create(Container\Tab::class, ['caption' => 'Basic data'])
 			->add($this->create(Container\Box::class, ['width' => 'half'])
 				->add($this->create(Element\Label::class, ['title' => 'Name'])
-					->add($this->create(Element\Textfield::class, ['path' => 'firstname', 'title' => 'Firstname', 'width' => 'half', 'filters' => 'trim', 'validators' => 'required|mask:alpha|min:5|max:32']))
-					->add($this->create(Element\Textfield::class, ['path' => 'surname', 'title' => 'Surname', 'width' => 'half', 'filters' => 'trim', 'validators' => 'required|mask:alpha|min:5|max:32']))
+					->add($this->create(Element\Textfield::class, [
+						'path' => 'firstname',
+						'title' => 'Firstname',
+						'width' => 'half',
+						'filters' => 'trim',
+						'validators' => 'required|mask:alpha|min:5|max:32'
+					]))
+					->add($this->create(Element\Textfield::class, [
+						'path' => 'surname',
+						'title' => 'Surname',
+						'width' => 'half',
+						'filters' => 'trim',
+						'validators' => 'required|mask:alpha|min:5|max:32'
+					]))
 				)->add($this->create(Element\Label::class, ['text' => 'Name'])
-					->add($this->create(Element\Datefield::class, ['path' => 'birthday', 'title' => 'Birthday', 'filters' => 'trim', 'validators' => 'min:1900-01-01']))
+					->add($this->create(Element\Datefield::class, [
+						'path' => 'birthday',
+						'title' => 'Birthday',
+						'filters' => 'trim',
+						'validators' => 'min:1900-01-01'
+					]))
 				)
 			)->add($this->create(Container\Box::class, ['width' => 'half'])
 				->add($this->create(Container\Label::class, ['text' => 'E-Mail'])
-					->add($this->create(Element\Textfield::class, ['path' => ['contact', 'email'], 'title' => 'E-Mail', 'filters' => 'trim', 'validators' => 'required|mask:email']))
+					->add($this->create(Element\Textfield::class, [
+						'path' => ['contact', 'email'],
+						'title' => 'E-Mail',
+						'filters' => 'trim',
+						'validators' => 'required|mask:email'
+					]))
 				)->add($this->create(Element\Label::class, ['title' => 'Phone'])
-					->add($this->create(Element\Textfield::class, ['path' => ['contact', 'phone'], 'title' => 'Phone', 'filters' => 'trim', 'validators' => 'mask:phone']))
+					->add($this->create(Element\Textfield::class, [
+						'path' => ['contact', 'phone'],
+						'title' => 'Phone',
+						'filters' => 'trim',
+						'validators' => 'mask:phone'
+					]))
 				)
 			)
 		)->add($this->create(Container\Tab::class, ['caption' => 'Quotes', 'id' => 'quotes']);
