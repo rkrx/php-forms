@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<style>
+			.container {
+				width: 800px;
+				margin: 0 auto;
+				border: 1px dashed #888;
+				box-sizing: border-box;
+			}
+
+			.container:after, .container:before {
+				content: ".";
+				display: block;
+				clear: both;
+				visibility: hidden;
+				line-height: 0;
+				height: 0;
+			}
+
+			.input50 {
+				width: 50%;
+				display: block;
+				box-sizing: border-box;
+				border: 1px dashed #888;
+				padding: 2px 8px;
+				float: left;
+			}
+
+			.input50 label {
+				width: 30%;
+				display: inline-block;
+				box-sizing: border-box;
+			}
+
+			.input50 input {
+				width: 70%;
+				display: inline-block;
+				box-sizing: border-box;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="input50">
+				<label>Vorname</label><input name="date[firstname]" />
+			</div>
+			<div class="input50">
+				<label>Nachname</label><input name="date[lastname]" />
+			</div>
+			<div class="input50">
+				<label>Nachname</label><input name="date[lastname]" />
+			</div>
+		</div>
+	</body>
+</html>
