@@ -4,7 +4,7 @@ php-flexible-forms
 Introduction
 ------------
 
-There are many php based form classes out there. I have used many of them and visited even more before I decided to develop my own approach. So this project is based on some experience and covers mostly my own needs.
+There are many php based form-builders out there. I have used many of them and visited even more before I decided to develop my own approach. So this project is based on some experience and covers mostly my own needs.
 
 This project covers:
 --------------------

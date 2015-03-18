@@ -13,4 +13,11 @@ trait ValidatorAwareTrait {
 		$this->validators[] = $validator;
 		return $this;
 	}
+
+	/**
+	 * @return Validator[]
+	 */
+	public function getValidators() {
+		return $this->validators;
+	}
 }

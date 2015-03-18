@@ -36,7 +36,8 @@ abstract class AbstractElement implements Element {
 	 * @return array
 	 */
 	public function render(array $data, $validate = false) {
-		$data['type'] = $this->type;
-		return $data;
+		$renderedData = [];
+		$renderedData['type'] = $this->type;
+		return $renderedData;
 	}
 }

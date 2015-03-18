@@ -12,6 +12,7 @@ abstract class AbstractNamedElement extends AbstractElement {
 	 * @param string $fieldName
 	 */
 	public function __construct($type, $fieldName) {
+		parent::__construct($type);
 		$this->fieldName = $fieldName;
 	}
 
