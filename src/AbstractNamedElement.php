@@ -3,7 +3,6 @@ namespace Kir\Forms;
 
 use Kir\Forms\Misc\MetaData;
 use Kir\Forms\Tools\RecursiveArrayAccess;
-use Kir\Forms\Validation\ValidationResult;
 
 abstract class AbstractNamedElement extends AbstractElement {
 	/** @var string[] */
@@ -43,7 +42,7 @@ abstract class AbstractNamedElement extends AbstractElement {
 			$renderedData['value'] = $value;
 		}
 		if($validate) {
-			$hasErrorMessages = $this->validate($data)->hasErrorMessages();
+			$hasErrorMessages = $this->validate($data, $metaData)->hasErrorMessages();
 			$renderedData['valid'] = !$hasErrorMessages;
 		}
 		return $renderedData;

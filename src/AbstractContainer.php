@@ -60,12 +60,13 @@ abstract class AbstractContainer implements Container {
 
 	/**
 	 * @param array $data
+	 * @param MetaData $metaData
 	 * @return ValidationResult
 	 */
-	public function validate(array $data) {
+	public function validate(array $data, MetaData $metaData = null) {
 		$result = new ValidationResult();
 		foreach($this->elements as $element) {
-			$elementResult = $element->validate($data);
+			$elementResult = $element->validate($data, $metaData);
 			if($elementResult->hasErrorMessages()) {
 				$result->setHasInnerErrors(true);
 			}

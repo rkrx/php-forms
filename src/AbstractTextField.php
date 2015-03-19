@@ -60,12 +60,16 @@ abstract class AbstractTextField extends AbstractNamedElement {
 
 	/**
 	 * @param array $data
+	 * @param MetaData $metaData
 	 * @return ValidationResult
 	 */
-	public function validate(array $data) {
-		$validationResult = parent::validate($data);
+	public function validate(array $data, MetaData $metaData = null) {
+		$validationResult = parent::validate($data, $metaData);
 		$validators = $this->getValidators();
 		$fieldPath = $this->getFieldPath();
+		if($metaData !== null) {
+			$fieldPath = $metaData->getParentDataPath() + $fieldPath;
+		}
 		if(RecursiveArrayAccess::has($data, $fieldPath)) {
 			$value = RecursiveArrayAccess::getString($data, $fieldPath);
 			foreach($validators as $validator) {
@@ -90,7 +94,7 @@ abstract class AbstractTextField extends AbstractNamedElement {
 		$renderedData['title'] = $this->title;
 		$data = $this->filterData($data, $dataPath);
 		if($validate) {
-			$renderedData['messages'] = $this->validate($data)->getErrorMessages();
+			$renderedData['messages'] = $this->validate($data, $metaData)->getErrorMessages();
 		}
 		$renderedData = $this->validateData($renderedData);
 		$renderedData = $this->getEventHandler()->fireEvent('render', $renderedData);

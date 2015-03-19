@@ -67,6 +67,12 @@ class MinLengthValidator extends AbstractValidator {
 		return [];
 	}
 
+	public function asArray() {
+		$data = parent::asArray();
+		$data['minlength'] = $this->getLength();
+		return $data;
+	}
+
 	/**
 	 * @param int|float|string $value
 	 * @return bool

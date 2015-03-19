@@ -67,10 +67,21 @@ class PatternValidator extends AbstractValidator {
 	/**
 	 * @param \string[] $modifiers
 	 * @return $this
-	 */
+	}
+*/
 	public function setModifiers($modifiers) {
 		$this->modifiers = $modifiers;
 		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function asArray() {
+		$data = parent::asArray();
+		$data['pattern'] = $this->getPattern();
+		$data['modifiers'] = $this->getModifiers();
+		return $data;
 	}
 
 	/**

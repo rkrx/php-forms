@@ -68,6 +68,15 @@ class MaxLengthValidator extends AbstractValidator {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function asArray() {
+		$data = parent::asArray();
+		$data['maxlength'] = $this->getLength();
+		return $data;
+	}
+
+	/**
 	 * @param int|float|string $value
 	 * @return bool
 	 */

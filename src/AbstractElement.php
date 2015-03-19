@@ -43,9 +43,10 @@ abstract class AbstractElement implements Element {
 
 	/**
 	 * @param array $data
+	 * @param MetaData $metaData
 	 * @return ValidationResult
 	 */
-	public function validate(array $data) {
+	public function validate(array $data, MetaData $metaData = null) {
 		return new ValidationResult();
 	}
 
