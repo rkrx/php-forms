@@ -1,21 +1,19 @@
 <?php
 namespace Kir\Forms\Validation\Contraints;
 
-use Kir\Forms\Validation\Validator;
+use Kir\Forms\Validation\AbstractValidator;
 
-class EmailAddressValidator implements Validator {
+class EmailAddressValidator extends AbstractValidator {
+	public function __construct($message = null, $standardMessage = 'The provided input is not valid') {
+		parent::__construct($message, $standardMessage);
+		$this->setType('email');
+	}
+
 	/**
-	 * @param string $value
-	 * @param string|null $message
-	 * @return string[]
+	 * @param int|float|string $value
+	 * @return bool
 	 */
-	public function validate($value, $message = null) {
-		if($message === null) {
-			$message = "The email address is not valid";
-		}
-		if(!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-			return [$message];
-		}
-		return [];
+	protected function doValidate($value) {
+		return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
 	}
 }

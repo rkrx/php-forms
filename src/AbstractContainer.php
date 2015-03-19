@@ -1,11 +1,35 @@
 <?php
 namespace Kir\Forms;
 
+use Kir\Forms\Misc\MetaData;
 use Kir\Forms\Validation\ValidationResult;
 
 abstract class AbstractContainer implements Container {
 	/** @var Element[] */
 	private $elements = [];
+	/** @var string */
+	private $type = 'unknown';
+
+	/**
+	 */
+	public function __construct() {
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @param string $type
+	 * @return $this
+	 */
+	public function setType($type) {
+		$this->type = $type;
+		return $this;
+	}
 
 	/**
 	 * @param Element $element
@@ -39,28 +63,36 @@ abstract class AbstractContainer implements Container {
 	 * @return ValidationResult
 	 */
 	public function validate(array $data) {
+		$result = new ValidationResult();
 		foreach($this->elements as $element) {
-			$data = $element->validate($data);
+			$elementResult = $element->validate($data);
+			if($elementResult->hasErrorMessages()) {
+				$result->setHasInnerErrors(true);
+			}
 		}
-		return $data;
+		return $result;
 	}
 
 	/**
 	 * @param array $data
 	 * @param bool $validate
+	 * @param MetaData $metaData
 	 * @return array
 	 */
-	public function render(array $data, $validate = false) {
+	public function render(array $data, $validate = false, MetaData $metaData = null) {
 		$renderedData = [
-			'children' => [],
+			'type' => $this->type,
 			'validationMessages' => [],
-			'valid' => false
+			'valid' => true,
+			'children' => [],
 		];
 		foreach($this->elements as $element) {
-			$renderedData['children'][] = $element->render($data, $validate);
+			$renderedData['children'][] = $element->render($data, $validate, $metaData);
 			if($validate) {
-				$validationResult = $element->validate($data);
-				$renderedData['valid'] = $renderedData['valid'] && $validationResult->hasErrorMessages();
+				$validationResult = $element->validate($renderedData);
+				$hasErrorMessages = $validationResult->hasErrorMessages();
+				$hasInnerErrors = $validationResult->hasInnerErrors();
+				$renderedData['valid'] = $renderedData['valid'] && (!$hasErrorMessages && $hasInnerErrors);
 			}
 		}
 		return $renderedData;

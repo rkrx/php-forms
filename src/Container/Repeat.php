@@ -1,17 +1,17 @@
 <?php
 namespace Kir\Forms\Container;
 
-use Kir\Forms\AbstractContainer;
+use Kir\Forms\AbstractNamedContainer;
+use Kir\Forms\Misc\MetaData;
+use Kir\Forms\Tools\RecursiveArrayAccess;
 
-class Repeat extends AbstractContainer {
-	/** @var string */
-	private $keyName;
-
+class Repeat extends AbstractNamedContainer {
 	/**
-	 * @param string $keyName
+	 * @param array|string $dataPath
 	 */
-	public function __construct($keyName) {
-		$this->keyName = $keyName;
+	function __construct($dataPath) {
+		parent::__construct($dataPath);
+		$this->setType('repeat');
 	}
 
 	/**
@@ -19,14 +19,15 @@ class Repeat extends AbstractContainer {
 	 * @return array
 	 */
 	public function convert(array $data) {
-		if(array_key_exists($this->keyName, $data)) {
-			$items = $data[$this->keyName];
+		$dataPath = $this->getDataPath();
+		if(RecursiveArrayAccess::has($data, $dataPath)) {
+			$items = RecursiveArrayAccess::getArray($data, $dataPath);
 			foreach($items as $key => &$item) {
 				foreach($this->getChildren() as $element) {
 					$item = $element->convert($item);
 				}
 			}
-			$data[$this->keyName] = $items;
+			$data = RecursiveArrayAccess::set($data, $dataPath, $items);
 		}
 		return $data;
 	}
@@ -34,23 +35,32 @@ class Repeat extends AbstractContainer {
 	/**
 	 * @param array $data
 	 * @param bool $validate
+	 * @param MetaData $metaData
 	 * @return array
 	 */
-	public function render(array $data, $validate = false) {
-		$renderedData = [
-			'type' => 'repeat',
-			'children' => [],
-			'valid' => false
-		];
-		if(array_key_exists($this->keyName, $data)) {
-			$items = $data[$this->keyName];
+	public function render(array $data, $validate = false, MetaData $metaData = null) {
+		$renderedData = parent::render($data, $validate, $metaData);
+		$renderedData['type'] = 'repeat';
+		$renderedData['children'] = [];
+		$renderedData['valid'] = true;
+		$dataPath = $this->getDataPath();
+		if($metaData !== null) {
+			$dataPath = array_merge($dataPath, $metaData->getParentDataPath());
+		}
+		if(RecursiveArrayAccess::has($data, $dataPath)) {
+			$items = RecursiveArrayAccess::getArray($data, $dataPath);
 			foreach($items as $key => $item) {
 				$children = [];
 				foreach($this->getChildren() as $element) {
-					$children[] = $element->render($item, $validate);
+					$childMetaData = new MetaData();
+					$childDataPath = array_merge($dataPath, [$key]);
+					$childMetaData->setParentDataPath($childDataPath);
+					$children[] = $element->render($data, $validate, $childMetaData);
 					if($validate) {
 						$validationResult = $element->validate($item);
-						$renderedData['valid'] = $renderedData['valid'] && $validationResult->hasErrorMessages();
+						$hasErrorMessages = $validationResult->hasErrorMessages();
+						$hasInnerErrors = $validationResult->hasInnerErrors();
+						$renderedData['valid'] = $renderedData['valid'] && (!$hasErrorMessages && $hasInnerErrors);
 					}
 				}
 				$renderedData['children'][$key] = $children;

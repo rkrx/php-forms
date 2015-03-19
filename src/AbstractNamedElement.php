@@ -1,25 +1,63 @@
 <?php
 namespace Kir\Forms;
 
+use Kir\Forms\Misc\MetaData;
+use Kir\Forms\Tools\RecursiveArrayAccess;
+use Kir\Forms\Validation\ValidationResult;
+
 abstract class AbstractNamedElement extends AbstractElement {
-	/**
-	 * @var string
-	 */
-	private $fieldName;
+	/** @var string[] */
+	private $fieldPath;
 
 	/**
-	 * @param string $type
-	 * @param string $fieldName
+	 * @param array|string $fieldPath
 	 */
-	public function __construct($type, $fieldName) {
-		parent::__construct($type);
-		$this->fieldName = $fieldName;
+	public function __construct($fieldPath) {
+		parent::__construct();
+		if(!is_array($fieldPath)) {
+			$fieldPath = [(string) $fieldPath];
+		}
+		$this->fieldPath = $fieldPath;
 	}
 
 	/**
-	 * @return string
+	 * @return string[]
 	 */
-	public function getFieldName() {
-		return $this->fieldName;
+	public function getFieldPath() {
+		return $this->fieldPath;
+	}
+
+	/**
+	 * @param array $data
+	 * @param bool $validate
+	 * @param MetaData $metaData
+	 * @return array
+	 */
+	public function render(array $data, $validate = false, MetaData $metaData = null) {
+		$renderedData = parent::render($data, $validate, $metaData);
+		$dataPath = $this->getFullDataPath($metaData);
+		$renderedData['name'] = $dataPath;
+		$renderedData['value'] = '';
+		if(RecursiveArrayAccess::has($data, $dataPath)) {
+			$value = RecursiveArrayAccess::getString($data, $dataPath);
+			$renderedData['value'] = $value;
+		}
+		if($validate) {
+			$hasErrorMessages = $this->validate($data)->hasErrorMessages();
+			$renderedData['valid'] = !$hasErrorMessages;
+		}
+		return $renderedData;
+	}
+
+	/**
+	 * @param MetaData $metaData
+	 * @return string[]
+	 */
+	protected function getFullDataPath(MetaData $metaData = null) {
+		$dataPath = $this->fieldPath;
+		if($metaData !== null) {
+			$dataPath = array_merge($metaData->getParentDataPath(), $dataPath);
+		}
+		return $dataPath;
 	}
 }

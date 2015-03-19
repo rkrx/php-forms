@@ -1,21 +1,22 @@
 <?php
 namespace Kir\Forms\Validation\Contraints;
 
-use Kir\Forms\Validation\Validator;
+use Kir\Forms\Validation\AbstractValidator;
 
-class UrlValidator implements Validator {
+class UrlValidator extends AbstractValidator {
 	/**
-	 * @param string $value
 	 * @param string|null $message
-	 * @return string[]
 	 */
-	public function validate($value, $message = null) {
-		if($message === null) {
-			$message = "The url is not valid";
-		}
-		if(!filter_var($value, FILTER_VALIDATE_URL)) {
-			return [$message];
-		}
-		return [];
+	public function __construct($message = null) {
+		parent::__construct($message);
+		$this->setType('url');
+	}
+
+	/**
+	 * @param int|float|string $value
+	 * @return bool
+	 */
+	protected function doValidate($value) {
+		return filter_var($value, FILTER_VALIDATE_URL) !== false;
 	}
 }

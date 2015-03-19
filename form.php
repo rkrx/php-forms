@@ -13,10 +13,16 @@ $form = (new Container\Form())
 		(new Container\Repeat('items'))
 		->add(new Element\HiddenField('lang'))
 		->add(
-			(new Element\TextField('title', 'Titel'))
+			(new Element\TextField('name', 'Name'))
+			->addValidator(new Contraints\MinLengthValidator(20, 'Mindestend {minlength} Zeichen erwartet'))
+			->addValidator(new Contraints\MaxLengthValidator(32, 'Nicht mehr als {maxlength} Zeichen zugelassen'))
+			->addValidator(new Contraints\PatternValidator('^[\\w ]+$', ['u'], 'Es sind nur Buchstaben, Zahlen und Leerzeichen erlaubt'))
 			->addFilter(new Filters\TrimFilter())
 		)
-		->add(new Element\TextAreaField('description', 'Beschreibung'))
+		->add(
+			(new Element\TextAreaField('description', 'Beschreibung'))
+			->addFilter(new Filters\TrimFilter())
+		)
 	)
 );
 
@@ -28,10 +34,6 @@ $renderedData = $form->render($data);
 
 print_r($renderedData);*/
 
-$element = (new Element\TextField('email', 'E-Mail'))
-->addValidator(new Contraints\EmailAddressValidator())
-->addFilter(new Filters\TrimFilter());
+$data = $form->render(['items' => ['a' => ['name' => 'Max Mustermann', 'company' => 'Acme']]], true);
 
-$data = $element->render(['email' => 'ron.kirschler@gmail.com'], true);
-
-print_r($data);
+echo json_encode($data, JSON_PRETTY_PRINT);

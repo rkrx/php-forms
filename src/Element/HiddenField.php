@@ -1,13 +1,20 @@
 <?php
 namespace Kir\Forms\Element;
 
-use Kir\Forms\AbstractNamedElement;
+use Kir\Forms\AbstractTextField;
+use Kir\Forms\Filtering\FilterAwareTrait;
+use Kir\Forms\Validation\ValidatorAwareTrait;
 
-class HiddenField extends AbstractNamedElement {
+class HiddenField extends AbstractTextField {
+	use ValidatorAwareTrait;
+	use FilterAwareTrait;
+
 	/**
-	 * @param string $fieldName
+	 * @param string $fieldPath
+	 * @param string $title
 	 */
-	public function __construct($fieldName) {
-		parent::__construct('hidden', $fieldName);
+	public function __construct($fieldPath, $title) {
+		parent::__construct($fieldPath, $title);
+		$this->setType('hiddenfield');
 	}
 }

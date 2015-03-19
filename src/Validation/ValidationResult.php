@@ -4,6 +4,8 @@ namespace Kir\Forms\Validation;
 class ValidationResult {
 	/** @var string[] */
 	private $errorMessages = [];
+	/** @var bool */
+	private $hasInnerErrors = false;
 
 	/**
 	 * @param $message
@@ -26,5 +28,21 @@ class ValidationResult {
 	 */
 	public function getErrorMessages() {
 		return $this->errorMessages;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function hasInnerErrors() {
+		return $this->hasInnerErrors;
+	}
+
+	/**
+	 * @param boolean $hasInnerErrors
+	 * @return $this
+	 */
+	public function setHasInnerErrors($hasInnerErrors) {
+		$this->hasInnerErrors = $hasInnerErrors;
+		return $this;
 	}
 }
