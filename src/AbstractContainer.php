@@ -49,11 +49,12 @@ abstract class AbstractContainer implements Container {
 
 	/**
 	 * @param array $data
+	 * @param MetaData $metaData
 	 * @return array
 	 */
-	public function convert(array $data) {
+	public function convert(array $data, MetaData $metaData = null) {
 		foreach($this->elements as $element) {
-			$data = $element->convert($data);
+			$data = $element->convert($data, $metaData);
 		}
 		return $data;
 	}

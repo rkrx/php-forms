@@ -35,9 +35,10 @@ abstract class AbstractElement implements Element {
 
 	/**
 	 * @param array $data
+	 * @param MetaData $metaData
 	 * @return array
 	 */
-	public function convert(array $data) {
+	public function convert(array $data, MetaData $metaData = null) {
 		return $data;
 	}
 

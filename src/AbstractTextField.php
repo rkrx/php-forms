@@ -41,12 +41,17 @@ abstract class AbstractTextField extends AbstractNamedElement {
 
 	/**
 	 * @param array $data
+	 * @param MetaData $metaData
 	 * @return array
 	 */
-	public function convert(array $data) {
-		$data = parent::convert($data);
+	public function convert(array $data, MetaData $metaData = null) {
+		$data = parent::convert($data, $metaData);
 		$filters = $this->getFilters();
 		$fieldPath = $this->getFieldPath();
+		if($metaData !== null) {
+			$parentDataPath = $metaData->getParentDataPath();
+			$fieldPath = array_merge($parentDataPath, $fieldPath);
+		}
 		$fieldValue = null;
 		if(RecursiveArrayAccess::has($data, $fieldPath)) {
 			$fieldValue = RecursiveArrayAccess::getString($data, $fieldPath);
@@ -68,7 +73,7 @@ abstract class AbstractTextField extends AbstractNamedElement {
 		$validators = $this->getValidators();
 		$fieldPath = $this->getFieldPath();
 		if($metaData !== null) {
-			$fieldPath = $metaData->getParentDataPath() + $fieldPath;
+			$fieldPath = array_merge($metaData->getParentDataPath(), $fieldPath);
 		}
 		if(RecursiveArrayAccess::has($data, $fieldPath)) {
 			$value = RecursiveArrayAccess::getString($data, $fieldPath);

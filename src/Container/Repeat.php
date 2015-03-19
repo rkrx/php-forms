@@ -16,18 +16,21 @@ class Repeat extends AbstractNamedContainer {
 
 	/**
 	 * @param array $data
+	 * @param MetaData $metaData
 	 * @return array
 	 */
-	public function convert(array $data) {
+	public function convert(array $data, MetaData $metaData = null) {
 		$dataPath = $this->getDataPath();
 		if(RecursiveArrayAccess::has($data, $dataPath)) {
 			$items = RecursiveArrayAccess::getArray($data, $dataPath);
-			foreach($items as $key => &$item) {
+			foreach(array_keys($items) as $key) {
+				$childMetaData = new MetaData();
+				$parentDataPath = array_merge($dataPath, [$key]);
+				$childMetaData->setParentDataPath($parentDataPath);
 				foreach($this->getChildren() as $element) {
-					$item = $element->convert($item);
+					$data = $element->convert($data, $childMetaData);
 				}
 			}
-			$data = RecursiveArrayAccess::set($data, $dataPath, $items);
 		}
 		return $data;
 	}
@@ -39,7 +42,8 @@ class Repeat extends AbstractNamedContainer {
 	 * @return array
 	 */
 	public function render(array $data, $validate = false, MetaData $metaData = null) {
-		$renderedData = parent::render($data, $validate, $metaData);
+		#$renderedData = parent::render($data, $validate, $metaData);
+		$renderedData = [];
 		$renderedData['type'] = 'repeat';
 		$renderedData['children'] = [];
 		$renderedData['valid'] = true;
@@ -49,7 +53,7 @@ class Repeat extends AbstractNamedContainer {
 		}
 		if(RecursiveArrayAccess::has($data, $dataPath)) {
 			$items = RecursiveArrayAccess::getArray($data, $dataPath);
-			foreach($items as $key => $item) {
+			foreach(array_keys($items) as $key) {
 				$children = [];
 				foreach($this->getChildren() as $element) {
 					$childMetaData = new MetaData();
@@ -57,7 +61,7 @@ class Repeat extends AbstractNamedContainer {
 					$childMetaData->setParentDataPath($childDataPath);
 					$children[] = $element->render($data, $validate, $childMetaData);
 					if($validate) {
-						$validationResult = $element->validate($item);
+						$validationResult = $element->validate($data, $childMetaData);
 						$hasErrorMessages = $validationResult->hasErrorMessages();
 						$hasInnerErrors = $validationResult->hasInnerErrors();
 						$renderedData['valid'] = $renderedData['valid'] && (!$hasErrorMessages && $hasInnerErrors);

@@ -10,4 +10,16 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals([], $data['children']);
 		$this->assertEquals([], $data['validationMessages']);
 	}
+
+	public function testValidate() {
+		$el = new Form();
+		$result = $el->validate(['name' => 'Jane Doe']);
+		$this->assertFalse($result->hasErrorMessages());
+	}
+
+	public function testConvert() {
+		$el = new Form();
+		$data = $el->convert(['name' => 'Jane Doe']);
+		$this->assertEquals(['Jane Doe'], $data);
+	}
 }

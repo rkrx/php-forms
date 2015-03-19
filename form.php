@@ -20,20 +20,34 @@ $form = (new Container\Form())
 			->addFilter(new Filters\TrimFilter())
 		)
 		->add(
-			(new Element\TextAreaField('description', 'Beschreibung'))
+			(new Element\TextAreaField('description', 'Description'))
 			->addFilter(new Filters\TrimFilter())
+		)
+		->add(
+			(new Element\CurrencyField('price', 'Price'))
 		)
 	)
 );
 
-/*$data = $form->convert(['items' => [['lang' => 'de', 'title' => ' Hello World     '], ['lang' => 'en']]]);
+$entityData = [
+	'items' => [[
+		'lang' => 'de',
+		'name' => ' Peter Fox     ',
+		'description' => 'This is a test',
+		'price' => 19.989
+	], [
+		'lang' => 'en',
+		'name' => ' Jane Doe     ',
+		'price' => 999
+	]]
+];
 
-print_r($data);
+//$data = $form->convert($entityData);
+//print_r($data);
 
-$renderedData = $form->render($data);
-
-print_r($renderedData);*/
-
-$data = $form->render(['items' => ['a' => ['name' => 'Max Mustermann', 'company' => 'Acme']]], true);
-
-echo json_encode($data, JSON_PRETTY_PRINT);
+$renderedData = $form->render($entityData);
+print_r($renderedData);
+//
+//$data = $form->render(['items' => ['a' => ['name' => 'Max Mustermann', 'company' => 'Acme']]], true);
+//
+//echo json_encode($data, JSON_PRETTY_PRINT);
