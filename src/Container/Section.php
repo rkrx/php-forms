@@ -18,8 +18,8 @@ class Section extends AbstractContainer {
 	 * @param MetaData $metaData
 	 * @return array
 	 */
-	public function render(array $renderedData, $validate = false, MetaData $metaData = null) {
-		$renderedData = parent::render($renderedData, $validate, $metaData);
+	public function build(array $renderedData, $validate = false, MetaData $metaData = null) {
+		$renderedData = parent::build($renderedData, $validate, $metaData);
 		$renderedData['type'] = 'section';
 		return $renderedData;
 	}

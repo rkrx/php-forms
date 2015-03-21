@@ -1,6 +1,8 @@
 <?php
 namespace Kir\Forms\Validation;
 
+use Kir\Forms\Nodes\Node;
+
 abstract class AbstractValidator implements Validator {
 	/** @var null|string */
 	private $message;
@@ -56,9 +58,10 @@ abstract class AbstractValidator implements Validator {
 
 	/**
 	 * @param int|float|string $value
-	 * @return string[]
+	 * @param Node $node
+	 * @return \string[]
 	 */
-	public function validate($value) {
+	public function validate($value, Node $node) {
 		$message = $this->getMessage();
 		if(!$this->doValidate($value)) {
 			return [$message];

@@ -11,7 +11,7 @@ $form = (new Container\Form())
 	(new Container\Section())
 	->add(
 		(new Container\Repeat('items'))
-		->add(new Element\HiddenField('lang', 'Sprache'))
+		->add(new Element\HiddenField('lang'))
 		->add(
 			(new Element\TextField('name', 'Name'))
 			->addValidator(new Contraints\MinLengthValidator(20, 'Mindestend {minlength} Zeichen erwartet'))
@@ -20,34 +20,20 @@ $form = (new Container\Form())
 			->addFilter(new Filters\TrimFilter())
 		)
 		->add(
-			(new Element\TextAreaField('description', 'Description'))
+			(new Element\TextAreaField('description', 'Beschreibung'))
 			->addFilter(new Filters\TrimFilter())
-		)
-		->add(
-			(new Element\CurrencyField('price', 'Price'))
 		)
 	)
 );
 
-$entityData = [
-	'items' => [[
-		'lang' => 'de',
-		'name' => ' Peter Fox     ',
-		'description' => 'This is a test',
-		'price' => 19.989
-	], [
-		'lang' => 'en',
-		'name' => ' Jane Doe     ',
-		'price' => 999
-	]]
-];
+/*$data = $form->convert(['items' => [['lang' => 'de', 'title' => ' Hello World     '], ['lang' => 'en']]]);
 
-//$data = $form->convert($entityData);
-//print_r($data);
+print_r($data);
 
-$renderedData = $form->render($entityData);
-print_r($renderedData);
-//
-//$data = $form->render(['items' => ['a' => ['name' => 'Max Mustermann', 'company' => 'Acme']]], true);
-//
-//echo json_encode($data, JSON_PRETTY_PRINT);
+$renderedData = $form->render($data);
+
+print_r($renderedData);*/
+
+$data = $form->build();
+
+echo json_encode($data, JSON_PRETTY_PRINT);

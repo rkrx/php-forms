@@ -1,6 +1,7 @@
 <?php
 namespace Kir\Forms\Validation\Contraints;
 
+use Kir\Forms\Nodes\Node;
 use Kir\Forms\Validation\AbstractValidator;
 
 class MinLengthValidator extends AbstractValidator {
@@ -55,9 +56,10 @@ class MinLengthValidator extends AbstractValidator {
 
 	/**
 	 * @param string $value
+	 * @param Node $node
 	 * @return string[]
 	 */
-	public function validate($value) {
+	public function validate($value, Node $node) {
 		$message = $this->getMessage();
 		$actualLength = mb_strlen($value, $this->encoding);
 		if($actualLength < $this->length) {

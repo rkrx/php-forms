@@ -1,7 +1,11 @@
 <?php
 namespace Kir\Forms;
 
-use Kir\Forms\Validation\Validatable;
+use Kir\Forms\Nodes\Node;
 
-interface Element extends Convertable, Renderable, Validatable {
+interface Element {
+	/**
+	 * @return Node
+	 */
+	public function build();
 }
