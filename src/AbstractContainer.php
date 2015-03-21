@@ -1,24 +1,32 @@
 <?php
 namespace Kir\Forms;
 
-use Kir\Forms\Misc\MetaData;
-use Kir\Forms\Validation\ValidationResult;
+use Kir\Forms\Nodes\Node;
+use Kir\Forms\Validation\CollectionValidator;
 
 abstract class AbstractContainer implements Container {
 	/** @var Element[] */
 	private $elements = [];
-	/** @var string */
-	private $type = 'unknown';
+	/** @var string|null */
+	private $type = null;
+	/** @var string|null */
+	private $name = null;
+	/** @var CollectionValidator[] */
+	private $validators = [];
 
 	/**
+	 * @param string|null $type
+	 * @param string|null $name
 	 */
-	public function __construct() {
+	public function __construct($type = null, $name = null) {
+		$this->type = $type;
+		$this->name = $name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getType() {
+	protected function getType() {
 		return $this->type;
 	}
 
@@ -26,8 +34,40 @@ abstract class AbstractContainer implements Container {
 	 * @param string $type
 	 * @return $this
 	 */
-	public function setType($type) {
+	protected function setType($type) {
 		$this->type = $type;
+		return $this;
+	}
+
+	/**
+	 * @return null|string
+	 */
+	protected function getName() {
+		return $this->name;
+	}
+
+	/**
+	 * @param null|string $name
+	 * @return $this
+	 */
+	protected function setName($name) {
+		$this->name = $name;
+		return $this;
+	}
+
+	/**
+	 * @return CollectionValidator[]
+	 */
+	public function getValidators() {
+		return $this->validators;
+	}
+
+	/**
+	 * @param CollectionValidator $validator
+	 * @return $this
+	 */
+	public function addValidator(CollectionValidator $validator) {
+		$this->validators[] = $validator;
 		return $this;
 	}
 
@@ -48,53 +88,28 @@ abstract class AbstractContainer implements Container {
 	}
 
 	/**
-	 * @param array $data
-	 * @return array
+	 * @return Node
 	 */
-	public function convert(array $data) {
+	public function build() {
+		$node = $this->buildNode();
 		foreach($this->elements as $element) {
-			$data = $element->convert($data);
+			$childNode = $element->build();
+			$childNode->setParentNode($childNode);
+			$node->addNode($childNode);
 		}
-		return $data;
+		foreach($this->validators as $validator) {
+			$node->addValidator($validator);
+		}
+		return $node;
 	}
 
 	/**
-	 * @param array $data
-	 * @return ValidationResult
+	 * @return Node
 	 */
-	public function validate(array $data) {
-		$result = new ValidationResult();
-		foreach($this->elements as $element) {
-			$elementResult = $element->validate($data);
-			if($elementResult->hasErrorMessages()) {
-				$result->setHasInnerErrors(true);
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * @param array $data
-	 * @param bool $validate
-	 * @param MetaData $metaData
-	 * @return array
-	 */
-	public function render(array $data, $validate = false, MetaData $metaData = null) {
-		$renderedData = [
-			'type' => $this->type,
-			'validationMessages' => [],
-			'valid' => true,
-			'children' => [],
-		];
-		foreach($this->elements as $element) {
-			$renderedData['children'][] = $element->render($data, $validate, $metaData);
-			if($validate) {
-				$validationResult = $element->validate($renderedData);
-				$hasErrorMessages = $validationResult->hasErrorMessages();
-				$hasInnerErrors = $validationResult->hasInnerErrors();
-				$renderedData['valid'] = $renderedData['valid'] && (!$hasErrorMessages && $hasInnerErrors);
-			}
-		}
-		return $renderedData;
+	protected function buildNode() {
+		$type = $this->getType();
+		$name = $this->getName();
+		$node = new Node($type, $name);
+		return $node;
 	}
 }

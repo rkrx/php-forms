@@ -34,6 +34,6 @@ $renderedData = $form->render($data);
 
 print_r($renderedData);*/
 
-$data = $form->render(['items' => ['a' => ['name' => 'Max Mustermann', 'company' => 'Acme']]], true);
+$data = $form->build();
 
 echo json_encode($data, JSON_PRETTY_PRINT);

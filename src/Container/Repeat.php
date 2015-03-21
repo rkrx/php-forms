@@ -38,8 +38,8 @@ class Repeat extends AbstractNamedContainer {
 	 * @param MetaData $metaData
 	 * @return array
 	 */
-	public function render(array $data, $validate = false, MetaData $metaData = null) {
-		$renderedData = parent::render($data, $validate, $metaData);
+	public function build(array $data, $validate = false, MetaData $metaData = null) {
+		$renderedData = parent::build($data, $validate, $metaData);
 		$renderedData['type'] = 'repeat';
 		$renderedData['children'] = [];
 		$renderedData['valid'] = true;

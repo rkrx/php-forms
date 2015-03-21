@@ -1,13 +1,17 @@
 <?php
 namespace Kir\Forms\Container;
 
+use Kir\Forms\Validation\CollectionConstraints\MinCountValidator;
+
 class FormTest extends \PHPUnit_Framework_TestCase {
-	public function testRender() {
+	public function testBuild() {
 		$el = (new Form());
-		$data = $el->render(['test' => 123]);
-		$this->assertEquals('form', $data['type']);
-		$this->assertEquals(true, $data['valid']);
-		$this->assertEquals([], $data['children']);
-		$this->assertEquals([], $data['validationMessages']);
+		$el->addValidator(new MinCountValidator());
+		$node = $el->build();
+		$this->assertEquals('form', $node->getType());
+		$this->assertEquals(null, $node->getFieldName());
+		$this->assertEquals([], $node->getPath());
+		$this->assertEquals(null, $node->getValue());
+		$this->assertInstanceOf(MinCountValidator::class, $node->getValidators()[0]);
 	}
 }
