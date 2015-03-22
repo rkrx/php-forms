@@ -14,8 +14,8 @@ class AbstractBaseElement implements Element {
 	 * @param string|null $name
 	 */
 	public function __construct($type = null, $name = null) {
-		$this->type = $type;
-		$this->name = $name;
+		$this->setType($type);
+		$this->setName($name);
 	}
 
 	/**
@@ -35,7 +35,7 @@ class AbstractBaseElement implements Element {
 	}
 
 	/**
-	 * @return null|string
+	 * @return null|array
 	 */
 	protected function getName() {
 		return $this->name;
@@ -46,8 +46,19 @@ class AbstractBaseElement implements Element {
 	 * @return $this
 	 */
 	protected function setName($name) {
+		if($name !== null && is_string($name)) {
+			$name = explode('.', $name);
+		}
 		$this->name = $name;
 		return $this;
+	}
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function convert(array $data) {
+		return $data;
 	}
 
 	/**

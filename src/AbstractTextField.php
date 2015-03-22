@@ -1,6 +1,7 @@
 <?php
 namespace Kir\Forms;
 
+use Kir\Forms\Filtering\Filter;
 use Kir\Forms\Filtering\FilterAwareTrait;
 use Kir\Forms\Misc\MetaData;
 use Kir\Forms\Tools\RecursiveArrayAccess;
@@ -9,18 +10,16 @@ use Kir\Forms\Validation\ValidatorAwareTrait;
 
 abstract class AbstractTextField extends AbstractElement {
 	use ValidatorAwareTrait;
-	use FilterAwareTrait;
 
 	/** @var string */
 	private $title = null;
 
 	/**
-	 * @param string $fieldPath
-	 * @param string $title
+	 * @param string|null $type
+	 * @param string|null $name
 	 */
-	public function __construct($fieldPath, $title) {
-		parent::__construct($fieldPath);
-		$this->setTitle($title);
+	public function __construct($type = null, $name = null) {
+		parent::__construct($type, $name);
 	}
 
 	/**
@@ -40,24 +39,41 @@ abstract class AbstractTextField extends AbstractElement {
 	}
 
 	/**
+	 * @param Filter $filter
+	 * @return $this
+	 */
+	public function prependFilter(Filter $filter) {
+		$this->getEventHandler()->prependHandler('convert.pre', function ($value) use ($filter) {
+			return $filter->filter($value);
+		});
+		return $this;
+	}
+
+	/**
+	 * @param Filter $filter
+	 * @return $this
+	 */
+	public function appendFilter(Filter $filter) {
+		$this->getEventHandler()->appendHandler('convert.post', function ($value) use ($filter) {
+			return $filter->filter($value);
+		});
+		return $this;
+	}
+
+	/**
 	 * @param array $data
-	 * @param MetaData $metaData
 	 * @return array
 	 */
-	public function convert(array $data, MetaData $metaData = null) {
-		$data = parent::convert($data, $metaData);
-		$filters = $this->getFilters();
-		$fieldPath = $this->getFieldPath();
-		if($metaData !== null) {
-			$parentDataPath = $metaData->getParentDataPath();
-			$fieldPath = array_merge($parentDataPath, $fieldPath);
-		}
+	public function convert(array $data) {
+		$data = parent::convert($data);
+		$fieldPath = $this->getName();
 		$fieldValue = null;
 		if(RecursiveArrayAccess::has($data, $fieldPath)) {
 			$fieldValue = RecursiveArrayAccess::getString($data, $fieldPath);
-			foreach($filters as $filter) {
-				$fieldValue = $filter->filter($fieldValue);
-			}
+			$fieldValue = (string) $fieldValue;
+			$fieldValue = $this->getEventHandler()->fireEvent('convert.pre', $fieldValue);
+			$fieldValue = $this->getEventHandler()->fireEvent('convert', $fieldValue);
+			$fieldValue = $this->getEventHandler()->fireEvent('convert.post', $fieldValue);
 		}
 		$data = RecursiveArrayAccess::set($data, $fieldPath, $fieldValue);
 		return $data;
@@ -65,16 +81,12 @@ abstract class AbstractTextField extends AbstractElement {
 
 	/**
 	 * @param array $data
-	 * @param MetaData $metaData
 	 * @return ValidationResult
 	 */
-	public function validate(array $data, MetaData $metaData = null) {
-		$validationResult = parent::validate($data, $metaData);
+	public function validate(array $data) {
+		$validationResult = parent::validate($data);
 		$validators = $this->getValidators();
-		$fieldPath = $this->getFieldPath();
-		if($metaData !== null) {
-			$fieldPath = array_merge($metaData->getParentDataPath(), $fieldPath);
-		}
+		$fieldPath = $this->getName();
 		if(RecursiveArrayAccess::has($data, $fieldPath)) {
 			$value = RecursiveArrayAccess::getString($data, $fieldPath);
 			foreach($validators as $validator) {

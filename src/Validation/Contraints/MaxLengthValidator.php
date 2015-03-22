@@ -56,10 +56,9 @@ class MaxLengthValidator extends AbstractValidator {
 
 	/**
 	 * @param string $value
-	 * @param Node $node
 	 * @return string[]
 	 */
-	public function validate($value, Node $node) {
+	public function validate($value) {
 		$message = $this->getMessage();
 		$actualLength = mb_strlen($value, $this->encoding);
 		if($actualLength > $this->length) {

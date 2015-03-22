@@ -58,10 +58,9 @@ abstract class AbstractValidator implements Validator {
 
 	/**
 	 * @param int|float|string $value
-	 * @param Node $node
 	 * @return \string[]
 	 */
-	public function validate($value, Node $node) {
+	public function validate($value) {
 		$message = $this->getMessage();
 		if(!$this->doValidate($value)) {
 			return [$message];

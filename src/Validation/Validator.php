@@ -7,11 +7,10 @@ use Kir\Forms\Nodes\Node;
 interface Validator {
 	/**
 	 * @param int|float|string|array $value
-	 * @param Node $node
 	 * @return string[]
 	 * @throws Exception
 	 */
-	public function validate($value, Node $node);
+	public function validate($value);
 
 	/**
 	 * @return array
