@@ -9,5 +9,10 @@
 		"psr-4": {
 			"Kir\\Forms\\": "src/"
 		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Kir\\Forms\\": "testsco/"
+		}
 	}
 }

@@ -8,7 +8,7 @@ class Node {
 	/** @var string */
 	private $type = 'unknown';
 	/** @var string */
-	private $fieldName = null;
+	private $name = null;
 	/** @var mixed */
 	private $value = null;
 	/** @var Node */
@@ -31,7 +31,7 @@ class Node {
 	 */
 	public function __construct($type, $fieldName, Node $parentNode = null) {
 		$this->type = $type;
-		$this->fieldName = $fieldName;
+		$this->name = $fieldName;
 		$this->parentNode = $parentNode;
 	}
 
@@ -54,16 +54,16 @@ class Node {
 	/**
 	 * @return string
 	 */
-	public function getFieldName() {
-		return $this->fieldName;
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
-	 * @param string $fieldName
+	 * @param string $name
 	 * @return $this
 	 */
-	public function setFieldName($fieldName) {
-		$this->fieldName = $fieldName;
+	public function setName($name) {
+		$this->name = $name;
 		return $this;
 	}
 
@@ -75,8 +75,8 @@ class Node {
 		if($this->parentNode !== null) {
 			$path = $this->parentNode->getPath();
 		}
-		if($this->fieldName !== null) {
-			$path[] = $this->fieldName;
+		if($this->name !== null) {
+			$path[] = $this->name;
 		}
 		return $path;
 	}
@@ -134,7 +134,7 @@ class Node {
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function getAttribute($name, $default) {
+	public function getAttribute($name, $default = null) {
 		if(array_key_exists($name, $this->attributes)) {
 			return $this->attributes[$name];
 		}
@@ -262,6 +262,7 @@ class Node {
 	public function asArray($includeChildren = true) {
 		$data = [];
 		$data['type'] = $this->type;
+		$data['name'] = $this->name;
 		$data['attributes'] = $this->attributes;
 		$data['valid'] = (bool) $this->isValid;
 		$data['messages'] = $this->messages;

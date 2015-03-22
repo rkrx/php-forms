@@ -11,7 +11,7 @@ $form = (new Container\Form())
 	(new Container\Section())
 	->add(
 		(new Container\Repeat('items'))
-		->add(new Element\HiddenField('lang'))
+		->add(new Element\HiddenField('lang', 'Language'))
 		->add(
 			(new Element\TextField('name', 'Name'))
 			->addValidator(new Contraints\MinLengthValidator(20, 'Mindestend {minlength} Zeichen erwartet'))

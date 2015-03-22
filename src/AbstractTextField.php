@@ -7,7 +7,7 @@ use Kir\Forms\Tools\RecursiveArrayAccess;
 use Kir\Forms\Validation\ValidationResult;
 use Kir\Forms\Validation\ValidatorAwareTrait;
 
-abstract class AbstractTextField extends AbstractNamedElement {
+abstract class AbstractTextField extends AbstractElement {
 	use ValidatorAwareTrait;
 	use FilterAwareTrait;
 

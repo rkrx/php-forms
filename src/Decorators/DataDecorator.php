@@ -10,7 +10,7 @@ class DataDecorator {
 	 */
 	public function decorate($data, Node $node) {
 		$value = $data;
-		$fieldName = $node->getFieldName();
+		$fieldName = $node->getName();
 		if($fieldName !== null) {
 			$value = null;
 			if(array_key_exists($fieldName, $data)) {
@@ -19,6 +19,8 @@ class DataDecorator {
 			$node->setValue($value);
 		}
 		foreach($node->getNodes() as $childNode) {
+			if($node->getAttribute('repeating')) {
+			}
 			$this->decorate($value, $childNode);
 		}
 	}

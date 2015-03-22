@@ -9,21 +9,9 @@ class FormTest extends \PHPUnit_Framework_TestCase {
 		$el->addValidator(new MinCountValidator());
 		$node = $el->build();
 		$this->assertEquals('form', $node->getType());
-		$this->assertEquals(null, $node->getFieldName());
+		$this->assertEquals(null, $node->getName());
 		$this->assertEquals([], $node->getPath());
 		$this->assertEquals(null, $node->getValue());
 		$this->assertInstanceOf(MinCountValidator::class, $node->getValidators()[0]);
-	}
-
-	public function testValidate() {
-		$el = new Form();
-		$result = $el->validate(['name' => 'Jane Doe']);
-		$this->assertFalse($result->hasErrorMessages());
-	}
-
-	public function testConvert() {
-		$el = new Form();
-		$data = $el->convert(['name' => 'Jane Doe']);
-		$this->assertEquals(['Jane Doe'], $data);
 	}
 }

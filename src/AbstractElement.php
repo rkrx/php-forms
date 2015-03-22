@@ -1,72 +1,42 @@
 <?php
 namespace Kir\Forms;
 
-use Kir\Forms\Misc\MetaData;
 use Kir\Forms\Tools\EventHandler;
-use Kir\Forms\Validation\ValidationResult;
+use Kir\Forms\Validation\Validator;
 
-abstract class AbstractElement implements Element {
-	/** @var string */
-	private $type;
-	/** @var EventHandler */
-	private $eventHandler;
+abstract class AbstractElement extends AbstractBaseElement {
+	/** @var Validator[] */
+	private $validators = [];
 
 	/**
 	 */
 	public function __construct() {
 		$this->eventHandler = new EventHandler();
 	}
-
 	/**
-	 * @return string
+	 * @return Validator[]
 	 */
-	public function getType() {
-		return $this->type;
+	public function getValidators() {
+		return $this->validators;
 	}
 
 	/**
-	 * @param string $type
+	 * @param Validator $validator
 	 * @return $this
 	 */
-	public function setType($type) {
-		$this->type = $type;
+	public function addValidator(Validator $validator) {
+		$this->validators[] = $validator;
 		return $this;
 	}
 
 	/**
-	 * @param array $data
-	 * @param MetaData $metaData
 	 * @return array
 	 */
-	public function convert(array $data, MetaData $metaData = null) {
-		return $data;
-	}
-
-	/**
-	 * @param array $data
-	 * @param MetaData $metaData
-	 * @return ValidationResult
-	 */
-	public function validate(array $data, MetaData $metaData = null) {
-		return new ValidationResult();
-	}
-
-	/**
-	 * @param array $renderedData
-	 * @param bool $validate
-	 * @param MetaData $metaData
-	 * @return array
-	 */
-	public function render(array $renderedData, $validate = false, MetaData $metaData = null) {
-		$renderedData = [];
-		$renderedData['type'] = $this->type;
-		return $renderedData;
-	}
-
-	/**
-	 * @return EventHandler
-	 */
-	protected function getEventHandler() {
-		return $this->eventHandler;
+	public function build() {
+		$node = parent::build();
+		foreach($this->getValidators() as $validator) {
+			$node->addValidator($validator);
+		}
+		return $node;
 	}
 }
