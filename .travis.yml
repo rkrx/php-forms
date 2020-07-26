@@ -1,0 +1,12 @@
+language: php
+
+php:
+  - 7.4
+
+before_script:
+  - composer self-update
+  - composer update
+
+script:
+  - composer run-script tests
+  - composer run-script phpstan

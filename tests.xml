@@ -1,0 +1,13 @@
+<phpunit bootstrap="tests.php"
+		 backupGlobals="false"
+		 backupStaticAttributes="false"
+		 verbose="true">
+	<php>
+		<const name="PHPUNIT_RUNNING" value="true"/>
+	</php>
+	<testsuites>
+		<testsuite name="Tests">
+			<directory>tests</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>
