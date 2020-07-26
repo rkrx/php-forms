@@ -4,6 +4,75 @@
 
 There are many php based form classes out there. I have used many of them and visited even more before I decided to develop my own approach. So this project is based on some experience and covers mostly my own needs.
 
+## Installation
+
+```bash
+composer require rkr/forms
+```
+
+## Example
+
+### First Render
+
+We first have to create a structure that will later represent our form, and subsequently convert the entered data and perform the validation:
+
+```php
+use Forms\Form;
+
+$section = new Form\Section('Section', ['xyz' => 123],
+    new Form\Checkbox(['data', 'active'], 'Active'),
+    new Form\Input(['data', 'name'], 'Name'),
+    new Form\Email(['data', 'email'], 'Email')
+);
+```
+
+Then we can create a data structure from the structure: 
+
+```php
+$structure = $section->render([], false);
+print_r(json_encode($structure, JSON_PRETTY_PRINT));
+```
+
+```text
+{
+    "type": "section",
+    "elements": [{
+        "name": ["data", "active"],
+        "title": "Active",
+        "value": null,
+        "messages": [],
+        "attributes": [],
+        "type": "checkbox"
+    }, {
+        "name": ["data", "name"],
+        "title": "Name",
+        "value": null,
+        "messages": [],
+        "attributes": [],
+        "type": "input"
+    }, {
+        "name": ["data", "email"],
+        "title": "Email",
+        "value": null,
+        "messages": [],
+        "attributes": [],
+        "type": "email"
+    }],
+    "attributes": {"xyz": 123},
+    "title": "Section"
+}
+```
+
+If we already have data, then this data is included in the generated data structure. That's it for the first step, actually. The output can now be made with any template engine. I mainly use PHP and Twig in my projects, but any template engine can be used.
+
+### Conversion
+
+Instructions follow...
+
+### Validation and second Render
+
+Instructions follow...
+
 ## Zen of Forms
 
 * It should be easy to reason about data
