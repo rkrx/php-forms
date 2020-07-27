@@ -8,5 +8,5 @@ before_script:
   - composer update
 
 script:
-  - composer run-script tests
+  - composer run-script phpunit
   - composer run-script phpstan
