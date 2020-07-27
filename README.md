@@ -1,5 +1,7 @@
 # php-forms
 
+[![Build Status](https://travis-ci.org/rkrx/php-forms.svg?branch=master)](https://travis-ci.org/rkrx/php-forms)
+
 ## Introduction
 
 There are many php based form classes out there. I have used many of them and visited even more before I decided to develop my own approach. So this project is based on some experience and covers mostly my own needs.
