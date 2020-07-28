@@ -68,6 +68,6 @@ class DateTimePickerTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): DateTimePicker {
-		return new DateTimePicker(['a', 'b'], 'Choose a date', []);
+		return $this->getFormElementProvider()->dateTimePicker(['a', 'b'], 'Choose a date', []);
 	}
 }

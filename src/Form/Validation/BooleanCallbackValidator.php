@@ -34,7 +34,7 @@ class BooleanCallbackValidator implements Validator {
 	/**
 	 * @param array $data
 	 * @param string[] $path
-	 * @return array
+	 * @return ValidationResultMessage[]
 	 */
 	public function __invoke(array $data, array $path): array {
 		$params = new Params($data, $path);

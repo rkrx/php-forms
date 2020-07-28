@@ -44,6 +44,6 @@ class EmailTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): Email {
-		return new Email(['a', 'b'], 'Email', ['x' => 123]);
+		return $this->getFormElementProvider()->email(['a', 'b'], 'Email', ['x' => 123]);
 	}
 }

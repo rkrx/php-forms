@@ -37,6 +37,6 @@ class RadioTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): AbstractInput {
-		return new Radio(['a', 'b'], 'Radio-Button', ['a' => 1, 'b' => 2, 'c' => 3], ['xyz' => 123]);
+		return $this->getFormElementProvider()->radio(['a', 'b'], 'Radio-Button', ['a' => 1, 'b' => 2, 'c' => 3], ['xyz' => 123]);
 	}
 }

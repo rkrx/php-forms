@@ -54,7 +54,7 @@ class TextareaTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): Textarea {
-		$comp = new Textarea(['a', 'b'], 'Field-Title', ['test' => 'abc']);
+		$comp = $this->getFormElementProvider()->textarea(['a', 'b'], 'Field-Title', ['test' => 'abc']);
 		$comp->addFilter(new TrimFilter);
 		$comp->addValidator(new IsNonEmptyString);
 		return $comp;

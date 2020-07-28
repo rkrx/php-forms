@@ -3,6 +3,8 @@ namespace Forms\Common;
 
 use Forms\Form\Abstractions\AbstractInput;
 use Forms\Form\Validation\Result\ValidationResult;
+use Forms\FormElementProvider;
+use Forms\TextProviders\ArrayTextProvider;
 use PHPUnit\Framework\TestCase;
 
 abstract class ComponentTestCase extends TestCase {
@@ -20,4 +22,8 @@ abstract class ComponentTestCase extends TestCase {
 	}
 
 	abstract protected function getComp(): AbstractInput;
+
+	protected function getFormElementProvider(): FormElementProvider {
+		return (new FormElementProvider(new FormOptions(), new ArrayTextProvider([])));
+	}
 }

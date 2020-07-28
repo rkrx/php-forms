@@ -24,6 +24,6 @@ class HiddenTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): Hidden {
-		return new Hidden(['a', 'b'], 'Hidden', ['x' => 123]);
+		return $this->getFormElementProvider()->hidden(['a', 'b'], 'Hidden', ['x' => 123]);
 	}
 }

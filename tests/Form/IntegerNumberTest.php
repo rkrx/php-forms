@@ -50,6 +50,6 @@ class IntegerNumberTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): IntegerNumber {
-		return new IntegerNumber(['a', 'b'], 'Integer Input', ['xyz' => 123]);
+		return $this->getFormElementProvider()->integer(['a', 'b'], 'Integer Input', ['xyz' => 123]);
 	}
 }

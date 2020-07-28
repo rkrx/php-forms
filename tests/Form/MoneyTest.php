@@ -1,9 +1,27 @@
 <?php
 namespace Forms\Form;
 
+use Forms\Common\ComponentTestCase;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
-class MoneyTest extends DecimalNumberTest {
+class MoneyTest extends ComponentTestCase {
+	public function testConvert() {
+		$value = $this->getComp()->convert(['a' => ['b' => '123.45678']]);
+		self::assertEquals(['a' => ['b' => '123.46']], $value);
+	}
+
+	public function testConvertEmptyValue() {
+		self::assertEquals(['a' => ['b' => '0.00']], $this->getComp()->convert(['a' => []]));
+	}
+
+	public function testValidate() {
+		self::assertTrue($this->convertAndValidate($this->getComp(), ['a' => ['b' => '123.46']])->isValid());
+	}
+
+	public function testValidateFailure() {
+		self::assertFalse($this->convertAndValidate($this->getComp(), ['a' => ['b' => 'test']])->isValid());
+	}
+
 	public function testRender() {
 		self::assertEq($this->getComp()->render(['a' => ['b' => 123.45]], true), [
 			'name' => ['a', 'b'],
@@ -24,11 +42,11 @@ class MoneyTest extends DecimalNumberTest {
 			'messages' => [new ValidationResultMessage('Invalid number')],
 			'attributes' => [],
 			'type' => 'money',
-			'converted-value' => 'test'
+			'converted-value' => '0.00'
 		]);
 	}
 
 	protected function getComp(): Money {
-		return new Money(['a', 'b'], 'Money');
+		return $this->getFormElementProvider()->money(['a', 'b'], 'Money');
 	}
 }

@@ -35,6 +35,9 @@ class ArrayTextProvider implements TextProvider {
 	 */
 	public function translate(string $dict, string $text, array $args = []): string {
 		$result = self::getString($this->source, [$dict, $text]);
+		if($result === null) {
+			return '';
+		}
 		if(strpos($result, '{') !== false) {
 			$replaceKeys = [];
 			foreach($args as $key => $value) {

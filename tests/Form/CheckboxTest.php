@@ -2,9 +2,12 @@
 namespace Forms\Form;
 
 use Forms\Common\ComponentTestCase;
+use Forms\Common\FormOptions;
 use Forms\Form\Common\Params;
 use Forms\Form\Validation\CallbackValidator;
 use Forms\Form\Validation\Result\ValidationResultMessage;
+use Forms\FormElementProvider;
+use Forms\TextProviders\ArrayTextProvider;
 
 class CheckboxTest extends ComponentTestCase {
 	public function testConvert() {
@@ -50,7 +53,7 @@ class CheckboxTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): Checkbox {
-		$comp = new Checkbox(['field', 'key'], 'Field-Title', ['test' => 'abc']);
+		$comp = $this->getFormElementProvider()->checkbox(['field', 'key'], 'Field-Title', ['test' => 'abc']);
 		$comp->addValidator(new CallbackValidator(fn (Params $params) => ($params->isScalar() && (bool) $params->getValue()) ? [] : ['Checkbox is not checked']));
 		return $comp;
 	}

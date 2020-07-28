@@ -27,7 +27,7 @@ class DropdownTest extends ComponentTestCase {
 		$aeq($this->getComp()->render(['a' => ['b' => 'a']], true), [
 			'type' => 'dropdown',
 			'value' => 'a',
-			'attributes' => [],
+			'attributes' => ['validation-messages' => ['Invalid selection' => 'Invalid selection']],
 			'name' => ['a', 'b'],
 			'title' => 'Dropdown',
 			'messages' => [],
@@ -39,7 +39,7 @@ class DropdownTest extends ComponentTestCase {
 		$aeq = fn ($actual, $expected) => self::assertEquals($expected, $actual);
 		$aeq($this->getComp()->render(['a' => ['b' => 'd']], true), [
 			'type' => 'dropdown',
-			'attributes' => [],
+			'attributes' => ['validation-messages' => ['Invalid selection' => 'Invalid selection']],
 			'name' => ['a', 'b'],
 			'title' => 'Dropdown',
 			'messages' => [new ValidationResultMessage('Invalid selection')],
@@ -48,6 +48,6 @@ class DropdownTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): Dropdown {
-		return new Dropdown(['a', 'b'], 'Dropdown', ['a' => 1, 'b' => 2, 'c' => 3]);
+		return $this->getFormElementProvider()->dropdown(['a', 'b'], 'Dropdown', ['a' => 1, 'b' => 2, 'c' => 3]);
 	}
 }

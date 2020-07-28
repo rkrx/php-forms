@@ -54,7 +54,7 @@ class InputTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): Input {
-		$comp = new Input(['a', 'b'], 'Field-Title', ['test' => 'abc']);
+		$comp = $this->getFormElementProvider()->input(['a', 'b'], 'Field-Title', ['test' => 'abc']);
 		$comp->addFilter(new TrimFilter);
 		$comp->addValidator(new IsNonEmptyString);
 		return $comp;

@@ -5,16 +5,17 @@ use Forms\Common\ComponentTestCase;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
 class DecimalNumberTest extends ComponentTestCase {
-		public function testConvert() {
-		self::assertEquals(['a' => ['b' => '123.45']], $this->getComp()->convert(['a' => ['b' => '123.45']]));
+	public function testConvert() {
+		$value = $this->getComp()->convert(['a' => ['b' => '123.45678']]);
+		self::assertEquals(['a' => ['b' => '123.4568']], $value);
 	}
 
 	public function testConvertEmptyValue() {
-		self::assertEquals(['a' => ['b' => '0.0']], $this->getComp()->convert(['a' => []]));
+		self::assertEquals(['a' => ['b' => '0.0000']], $this->getComp()->convert(['a' => []]));
 	}
 
 	public function testValidate() {
-		self::assertTrue($this->convertAndValidate($this->getComp(), ['a' => ['b' => '123.45']])->isValid());
+		self::assertTrue($this->convertAndValidate($this->getComp(), ['a' => ['b' => '123.45678']])->isValid());
 	}
 
 	public function testValidateFailure() {
@@ -22,14 +23,14 @@ class DecimalNumberTest extends ComponentTestCase {
 	}
 
 	public function testRender() {
-		self::assertEq($this->getComp()->render(['a' => ['b' => 123.45]], true), [
+		self::assertEq($this->getComp()->render(['a' => ['b' => 123.45678]], true), [
 			'name' => ['a', 'b'],
 			'title' => 'Number',
-			'value' => '123.45',
+			'value' => '123.45678',
 			'messages' => [],
 			'attributes' => [],
 			'type' => 'decimal-number',
-			'converted-value' => '123.45'
+			'converted-value' => '123.4568'
 		]);
 	}
 
@@ -41,11 +42,11 @@ class DecimalNumberTest extends ComponentTestCase {
 			'messages' => [new ValidationResultMessage('Invalid number')],
 			'attributes' => [],
 			'type' => 'decimal-number',
-			'converted-value' => 'test'
+			'converted-value' => '0.0000'
 		]);
 	}
 
 	protected function getComp(): DecimalNumber {
-		return new DecimalNumber(['a', 'b'], 'Number');
+		return $this->getFormElementProvider()->decimal(['a', 'b'], 'Number');
 	}
 }

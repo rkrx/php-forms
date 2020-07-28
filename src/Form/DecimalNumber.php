@@ -13,7 +13,14 @@ class DecimalNumber extends AbstractInput {
 	private ?int $decimalPrecision;
 	private string $decimalSeparator;
 
-	public function __construct(array $fieldNamePath, string $caption, string $decimalSeparator = '.', ?int $decimalPrecision = null, array $attributes = []) {
+	/**
+	 * @param array $fieldNamePath
+	 * @param string $caption
+	 * @param string $decimalSeparator
+	 * @param int|null $decimalPrecision
+	 * @param array $attributes
+	 */
+	public function __construct(array $fieldNamePath, string $caption, string $decimalSeparator = '.', int $decimalPrecision = null, array $attributes = []) {
 		parent::__construct($fieldNamePath, $caption, $attributes);
 		$this->decimalSeparator = $decimalSeparator;
 		$this->decimalPrecision = $decimalPrecision;
@@ -52,8 +59,7 @@ class DecimalNumber extends AbstractInput {
 		$value = self::getTrimmedString($data, $this->getFieldPath(), null) ?: '';
 		$convertedValue = $value;
 		if($this->decimalPrecision) {
-			$value = number_format($value, $this->decimalPrecision, '.', '');
-			$convertedValue = number_format($value, $this->decimalPrecision, $this->decimalSeparator, '');
+			$convertedValue = number_format((float) $value, $this->decimalPrecision, $this->decimalSeparator, '');
 		}
 		$data = self::set($data, $this->getFieldPath(), $value);
 		$fieldData = parent::render($data, $validate);

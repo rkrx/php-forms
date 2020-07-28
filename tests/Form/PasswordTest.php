@@ -55,7 +55,7 @@ class PasswordTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): Password {
-		$comp = new Password(['a', 'b'], 'Field-Title', ['test' => 'abc']);
+		$comp = $this->getFormElementProvider()->password(['a', 'b'], 'Field-Title', ['test' => 'abc']);
 		$comp->addValidator(new IsNonEmptyString);
 		return $comp;
 	}

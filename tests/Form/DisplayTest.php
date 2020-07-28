@@ -25,6 +25,6 @@ class DisplayTest extends ComponentTestCase {
 	}
 
 	protected function getComp(): AbstractInput {
-		return new Display(['a', 'b'], 'Display', ['x' => 123]);
+		return $this->getFormElementProvider()->display(['a', 'b'], 'Display', ['x' => 123]);
 	}
 }
