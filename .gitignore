@@ -6,6 +6,7 @@
 !/.travis.yml
 !/composer.json
 !/LICENSE
+!/psalm.xml
 !/README.md
 !/tests.php
 !/tests.xml
