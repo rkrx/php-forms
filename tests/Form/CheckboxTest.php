@@ -11,17 +11,14 @@ use Forms\TextProviders\ArrayTextProvider;
 
 class CheckboxTest extends ComponentTestCase {
 	public function testConvert() {
-		// False values
-		foreach(['1', 1, true] as $testValue) {
+		// If key exists, outcome is true
+		foreach(['1', 1, true, '', 0, false] as $testValue) {
 			$data = $this->getComp()->convert(['field' => ['key' => $testValue]]);
 			self::assertEquals(['field' => ['key' => true]], $data);
 		}
 
-		// False values
-		foreach(['', '0', []] as $testValue) {
-			$data = $this->getComp()->convert(['field' => ['key' => $testValue]]);
-			self::assertEquals(['field' => ['key' => false]], $data);
-		}
+		// If does not exist, outcome is false
+		self::assertEquals(['field' => ['key' => false]], $this->getComp()->convert(['field' => []]));
 	}
 
 	public function testValidate() {

@@ -2,8 +2,7 @@
 namespace Forms\Form;
 
 use Forms\Form\Abstractions\AbstractContainerElement;
-use Forms\Form\Common\Params;
-use Forms\Form\Validation\CallbackValidator;
+use Forms\Form\Validation\IsRequired;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
 
@@ -13,8 +12,8 @@ class ContainerTest extends TestCase {
 	public function setUp(): void {
 		$this->comp = new Container(['type' => 'is-container'],
 			new Container([],
-				(new Checkbox(['root', 'a'], 'Test checkbox', []))
-					->addValidator(new CallbackValidator(fn (Params $params) => ($params->isScalar() && (bool) $params->getValue()) ? [] : ['Checkbox is not checked']))
+				(new Input(['root', 'a'], 'Test input', []))
+					->addValidator(new IsRequired)
 			)
 		);
 	}
@@ -28,26 +27,26 @@ class ContainerTest extends TestCase {
 	}
 
 	public function testValidate() {
-		$result = $this->comp->validate(['root' => ['a' => 1]]);
+		$result = $this->comp->validate(['root' => ['a' => 'Test']]);
 		self::assertTrue($result->isValid());
 		$this->assertEmpty($result->getResults());
 
 
-		$result = $this->comp->validate(['root' => ['a' => 0]]);
+		$result = $this->comp->validate(['root' => ['a' => '']]);
 		self::assertFalse($result->isValid());
 		$this->assertCount(1, $result->getResults());
 		foreach($result->getResults() as $elResult) {
 			$this->assertCount(1, $elResult->getMessages());
 			foreach($elResult->getMessages() as $message) {
-				self::assertEquals('Checkbox is not checked', $message->getMessage());
+				self::assertEquals('Input required', $message->getMessage());
 				self::assertEmpty($message->getArgs());
 			}
-			self::assertEquals('Test checkbox', $elResult->getElement()->getCaption());
+			self::assertEquals('Test input', $elResult->getElement()->getCaption());
 		}
 	}
 
 	public function testRender() {
-		$actualData = $this->comp->render(['root' => ['a' => 0]], true);
+		$actualData = $this->comp->render(['root' => ['a' => '']], true);
 		$expectedData = [
 			'type' => 'container',
 			'attributes' => ['type' => 'is-container'],
@@ -56,12 +55,12 @@ class ContainerTest extends TestCase {
 				'attributes' => [],
 				'elements' => [[
 					'name' => ['root', 'a'],
-                    'title' => 'Test checkbox',
-                    'value' => 0,
+                    'title' => 'Test input',
+                    'value' => '',
                     'valid' => false,
-                    'messages' => [new ValidationResultMessage('Checkbox is not checked', [])],
-                    'attributes' => [],
-                    'type' => 'checkbox'
+                    'messages' => [new ValidationResultMessage('Input required', [])],
+                    'attributes' => ['required' => true],
+                    'type' => 'input'
 				]]
 			]]
 		];
