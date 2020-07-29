@@ -32,6 +32,7 @@ class IntegerNumberTest extends ComponentTestCase {
 			'name' => ['a', 'b'],
 			'title' => 'Integer Input',
 			'value' => 123,
+			'valid' => true,
 			'messages' => [],
 			'attributes' => ['xyz' => 123],
 			'type' => 'integer-number'
@@ -43,6 +44,7 @@ class IntegerNumberTest extends ComponentTestCase {
 			'name' => ['a', 'b'],
 			'title' => 'Integer Input',
 			'value' => 'test',
+			'valid' => false,
 			'messages' => [new ValidationResultMessage('Invalid value')],
 			'attributes' => ['xyz' => 123],
 			'type' => 'integer-number'

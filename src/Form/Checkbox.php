@@ -19,7 +19,7 @@ class Checkbox extends AbstractInput {
 	 */
 	public function convert(array $data): array {
 		$data = parent::convert($data);
-		$value = (bool) RecursiveStructureAccess::get($data, $this->getFieldPath(), false);
+		$value = RecursiveStructureAccess::has($data, $this->getFieldPath());
 		$data = RecursiveStructureAccess::set($data, $this->getFieldPath(), $value);
 		return $data;
 	}

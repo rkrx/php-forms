@@ -3,7 +3,7 @@ namespace Forms\Form;
 
 use Forms\Common\ComponentTestCase;
 use Forms\Form\Filtering\TrimFilter;
-use Forms\Form\Validation\IsNonEmptyString;
+use Forms\Form\Validation\IsRequired;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
 class InputTest extends ComponentTestCase {
@@ -30,6 +30,7 @@ class InputTest extends ComponentTestCase {
 			'name' => ['a', 'b'],
 			'title' => 'Field-Title',
 			'value' => 'test',
+			'valid' => true,
 			'messages' => [],
 			'attributes' => [
 				'test' => 'abc',
@@ -44,6 +45,7 @@ class InputTest extends ComponentTestCase {
 			'name' => ['a', 'b'],
 			'title' => 'Field-Title',
 			'value' => '',
+			'valid' => false,
 			'messages' => [new ValidationResultMessage('Input required')],
 			'attributes' => [
 				'test' => 'abc',
@@ -56,7 +58,7 @@ class InputTest extends ComponentTestCase {
 	protected function getComp(): Input {
 		$comp = $this->getFormElementProvider()->input(['a', 'b'], 'Field-Title', ['test' => 'abc']);
 		$comp->addFilter(new TrimFilter);
-		$comp->addValidator(new IsNonEmptyString);
+		$comp->addValidator(new IsRequired);
 		return $comp;
 	}
 }

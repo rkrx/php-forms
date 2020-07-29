@@ -1,7 +1,9 @@
 <?php
 namespace Forms\Form\Validation\Result;
 
-class ValidationResultMessage {
+use JsonSerializable;
+
+class ValidationResultMessage implements JsonSerializable {
 	private string $message;
 	private array $args;
 
@@ -29,5 +31,9 @@ class ValidationResultMessage {
 
 	public function __toString(): string {
 		return $this->getMessage();
+	}
+
+	public function jsonSerialize() {
+		return ['message' => $this->message, 'args' => $this->args];
 	}
 }

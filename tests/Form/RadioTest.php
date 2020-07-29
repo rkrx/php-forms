@@ -29,6 +29,7 @@ class RadioTest extends ComponentTestCase {
 			'name' => ['a', 'b'],
 			'title' => 'Radio-Button',
 			'value' => 'a',
+			'valid' => true,
 			'messages' => [],
 			'attributes' => ['xyz' => 123],
 			'type' => 'radio',

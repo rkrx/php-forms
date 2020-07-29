@@ -2,7 +2,7 @@
 namespace Forms\Form;
 
 use Forms\Form\Filtering\TrimFilter;
-use Forms\Form\Validation\IsNonEmptyString;
+use Forms\Form\Validation\IsRequired;
 use Forms\Form\Validation\IsValidEmail;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ class LabelWithCheckboxTest extends TestCase {
 			(new Input(['a', 'c'], 'Field-Title', ['test' => 'abc']))
 				->addFilter(new TrimFilter)
 				->addValidator(new IsValidEmail())
-				->addValidator(new IsNonEmptyString())
+				->addValidator(new IsRequired())
 		);
 	}
 
@@ -49,6 +49,7 @@ class LabelWithCheckboxTest extends TestCase {
 				'name' => ['a', 'c'],
 				'title' => 'Field-Title',
 				'value' => 'john.doe@example.org',
+				'valid' => true,
 				'messages' => [],
 				'attributes' => ['test' => 'abc', 'required' => true],
 				'type' => 'input',
@@ -59,6 +60,7 @@ class LabelWithCheckboxTest extends TestCase {
 				'name' => ['a', 'b'],
 				'title' => 'Title',
 				'value' => null,
+				'valid' => true,
 				'messages' => [],
 				'attributes' => [],
 				'type' => 'checkbox'
@@ -77,6 +79,7 @@ class LabelWithCheckboxTest extends TestCase {
 				'name' => ['a', 'c'],
 				'title' => 'Field-Title',
 				'value' => 'john.doe-at-example.org',
+				'valid' => false,
 				'messages' => [new ValidationResultMessage('Invalid email address pattern', [])],
 				'attributes' => ['test' => 'abc', 'required' => true],
 				'type' => 'input',
@@ -87,6 +90,7 @@ class LabelWithCheckboxTest extends TestCase {
 				'name' => ['a', 'b'],
 				'title' => 'Title',
 				'value' => null,
+				'valid' => true,
 				'messages' => [],
 				'attributes' => [],
 				'type' => 'checkbox'

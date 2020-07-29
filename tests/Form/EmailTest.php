@@ -26,6 +26,7 @@ class EmailTest extends ComponentTestCase {
 			'name' => ['a', 'b'],
 			'title' => 'Email',
 			'value' => 'name@test.dev',
+			'valid' => true,
 			'messages' => [],
 			'attributes' => ['x' => 123],
 			'type' => 'email'
@@ -37,6 +38,7 @@ class EmailTest extends ComponentTestCase {
 			'name' => ['a', 'b'],
 			'title' => 'Email',
 			'value' => 'xxx',
+			'valid' => false,
 			'messages' => [new ValidationResultMessage('Invalid email address pattern')],
 			'attributes' => ['x' => 123],
 			'type' => 'email'

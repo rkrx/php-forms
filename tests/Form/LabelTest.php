@@ -2,7 +2,7 @@
 namespace Forms\Form;
 
 use Forms\Form\Filtering\TrimFilter;
-use Forms\Form\Validation\IsNonEmptyString;
+use Forms\Form\Validation\IsRequired;
 use Forms\Form\Validation\IsValidEmail;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ class LabelTest extends TestCase {
 			(new Input(['a', 'b'], 'Field-Title', ['test' => 'abc']))
 				->addFilter(new TrimFilter)
 				->addValidator(new IsValidEmail())
-				->addValidator(new IsNonEmptyString())
+				->addValidator(new IsRequired())
 		);
 	}
 
@@ -55,6 +55,7 @@ class LabelTest extends TestCase {
 				'name' => ['a', 'b'],
 				'title' => 'Field-Title',
 				'value' => 'john.doe@example.org',
+				'valid' => true,
 				'messages' => [],
 				'attributes' => ['test' => 'abc', 'required' => true],
 				'type' => 'input',
@@ -75,6 +76,7 @@ class LabelTest extends TestCase {
 				'name' => ['a', 'b'],
 				'title' => 'Field-Title',
 				'value' => 'john.doe-at-example.org',
+				'valid' => false,
 				'messages' => [new ValidationResultMessage('Invalid email address pattern', [])],
 				'attributes' => ['test' => 'abc', 'required' => true],
 				'type' => 'input',

@@ -44,6 +44,7 @@ class CheckboxTest extends ComponentTestCase {
 			'name' => ['field', 'key'],
 			'title' => 'Field-Title',
 			'value' => 0,
+			'valid' => false,
 			'messages' => [new ValidationResultMessage('Checkbox is not checked', [])],
 			'attributes' => ['test' => 'abc'],
 			'type' => 'checkbox'

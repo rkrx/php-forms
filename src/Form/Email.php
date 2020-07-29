@@ -7,11 +7,20 @@ use Forms\Form\Validation\IsValidEmail;
 class Email extends Input {
 	use RecursiveStructureAccessTrait;
 
+	/**
+	 * @param array $fieldNamePath
+	 * @param string $caption
+	 * @param array $attributes
+	 */
 	public function __construct(array $fieldNamePath, string $caption, array $attributes = []) {
 		parent::__construct($fieldNamePath, $caption, $attributes);
 		$this->addValidator(new IsValidEmail);
 	}
 
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function convert($data): array {
 		$data = parent::convert($data);
 		$path = $this->getFieldPath();

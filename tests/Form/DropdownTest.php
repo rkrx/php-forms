@@ -27,10 +27,11 @@ class DropdownTest extends ComponentTestCase {
 		$aeq($this->getComp()->render(['a' => ['b' => 'a']], true), [
 			'type' => 'dropdown',
 			'value' => 'a',
+			'valid' => true,
+			'messages' => [],
 			'attributes' => ['validation-messages' => ['Invalid selection' => 'Invalid selection']],
 			'name' => ['a', 'b'],
 			'title' => 'Dropdown',
-			'messages' => [],
 			'options' => ['a' => 1, 'b' => 2, 'c' => 3],
 		]);
 	}
@@ -42,6 +43,7 @@ class DropdownTest extends ComponentTestCase {
 			'attributes' => ['validation-messages' => ['Invalid selection' => 'Invalid selection']],
 			'name' => ['a', 'b'],
 			'title' => 'Dropdown',
+			'valid' => false,
 			'messages' => [new ValidationResultMessage('Invalid selection')],
 			'options' => ['a' => 1, 'b' => 2, 'c' => 3],
 		]);

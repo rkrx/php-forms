@@ -5,7 +5,7 @@ use Forms\Form\Common\RecursiveStructureAccess as Arr;
 use Forms\Form\Validation\Abstractions\Validator;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
-class IsNonEmptyString implements Validator {
+class IsRequired implements Validator {
 	private string $message;
 
 	public function __construct(string $message = 'Input required') {

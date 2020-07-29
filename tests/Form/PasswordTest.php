@@ -2,7 +2,7 @@
 namespace Forms\Form;
 
 use Forms\Common\ComponentTestCase;
-use Forms\Form\Validation\IsNonEmptyString;
+use Forms\Form\Validation\IsRequired;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
 class PasswordTest extends ComponentTestCase {
@@ -31,6 +31,7 @@ class PasswordTest extends ComponentTestCase {
 			'name' => ['a', 'b'],
 			'title' => 'Field-Title',
 			'value' => 'test',
+			'valid' => true,
 			'messages' => [],
 			'attributes' => [
 				'test' => 'abc',
@@ -45,6 +46,7 @@ class PasswordTest extends ComponentTestCase {
 			'name' => ['a', 'b'],
 			'title' => 'Field-Title',
 			'value' => '',
+			'valid' => false,
 			'messages' => [new ValidationResultMessage('Input required')],
 			'attributes' => [
 				'test' => 'abc',
@@ -56,7 +58,7 @@ class PasswordTest extends ComponentTestCase {
 
 	protected function getComp(): Password {
 		$comp = $this->getFormElementProvider()->password(['a', 'b'], 'Field-Title', ['test' => 'abc']);
-		$comp->addValidator(new IsNonEmptyString);
+		$comp->addValidator(new IsRequired);
 		return $comp;
 	}
 }

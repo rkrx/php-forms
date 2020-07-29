@@ -5,10 +5,10 @@ use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
 
 class IsNonEmptyStringTest extends TestCase {
-	private IsNonEmptyString $validator;
+	private IsRequired $validator;
 
 	public function setUp(): void {
-		$this->validator = new IsNonEmptyString();
+		$this->validator = new IsRequired();
 	}
 
 	public function testRender() {

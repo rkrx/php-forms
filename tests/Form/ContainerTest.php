@@ -58,6 +58,7 @@ class ContainerTest extends TestCase {
 					'name' => ['root', 'a'],
                     'title' => 'Test checkbox',
                     'value' => 0,
+                    'valid' => false,
                     'messages' => [new ValidationResultMessage('Checkbox is not checked', [])],
                     'attributes' => [],
                     'type' => 'checkbox'

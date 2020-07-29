@@ -18,6 +18,7 @@ class DisplayTest extends ComponentTestCase {
 			'name' => ['a', 'b'],
 			'title' => 'Display',
 			'value' => 123,
+			'valid' => true,
 			'messages' => [],
 			'attributes' => ['x' => 123],
 			'type' => 'display'

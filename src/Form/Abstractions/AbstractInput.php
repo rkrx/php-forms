@@ -160,9 +160,11 @@ abstract class AbstractInput implements FormElement {
 	 */
 	public function render(array $data, bool $validate = false): array {
 		$messages = [];
+		$isValid = null;
 
 		if($validate) {
 			$validationResult = $this->validate($data);
+			$isValid = $validationResult->isValid();
 			foreach($validationResult->getMessages() as $message) {
 				$messages[] = $message;
 			}
@@ -173,8 +175,12 @@ abstract class AbstractInput implements FormElement {
 			'title' => $this->caption,
 			'value' => RecursiveStructureAccess::get($data, $this->fieldNamePath),
 			'messages' => $messages,
-			'attributes' => $this->attributes,
+			'attributes' => $this->attributes
 		];
+
+		if($isValid !== null) {
+			$fieldData['valid'] = $isValid;
+		}
 
 		foreach($this->validators as $validator) {
 			$fieldData = $validator->render($fieldData);
