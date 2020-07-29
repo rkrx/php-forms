@@ -62,6 +62,7 @@ class LabelTest extends TestCase {
 			]],
 			'attributes' => ['some-attribute' => 'some-value'],
 			'title' => 'Title',
+			'valid' => true
 		];
 
 		self::assertEquals($expected, $data);
@@ -83,6 +84,7 @@ class LabelTest extends TestCase {
 			]],
 			'attributes' => ['some-attribute' => 'some-value'],
 			'title' => 'Title',
+			'valid' => false
 		];
 
 		self::assertEquals($expected, $data);

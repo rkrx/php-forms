@@ -56,6 +56,7 @@ class LabelWithCheckboxTest extends TestCase {
 			]],
 			'attributes' => ['some-attribute' => 'some-value'],
 			'title' => 'Title',
+			'valid' => true,
 			'checkbox' => [
 				'name' => ['a', 'b'],
 				'title' => 'Title',
@@ -85,6 +86,7 @@ class LabelWithCheckboxTest extends TestCase {
 				'type' => 'input',
 			]],
 			'attributes' => ['some-attribute' => 'some-value'],
+			'valid' => false,
 			'title' => 'Title',
 			'checkbox' => [
 				'name' => ['a', 'b'],

@@ -50,9 +50,11 @@ class ContainerTest extends TestCase {
 		$expectedData = [
 			'type' => 'container',
 			'attributes' => ['type' => 'is-container'],
+			'valid' => false,
 			'elements' => [[
 				'type' => 'container',
 				'attributes' => [],
+				'valid' => false,
 				'elements' => [[
 					'name' => ['root', 'a'],
                     'title' => 'Test input',

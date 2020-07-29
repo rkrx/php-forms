@@ -40,10 +40,21 @@ abstract class AbstractContainerElement implements FormElement, IteratorAggregat
 	 * @return array
 	 */
 	public function render(array $data, bool $validate = false): array {
-		return [
+		$elements = array_map(fn(FormElement $element) => $element->render($data, $validate), $this->elements);
+		$data = [
 			'type' => 'container',
-			'elements' => array_map(fn (FormElement $element) => $element->render($data, $validate), $this->elements)
+			'elements' => $elements
 		];
+		if($validate) {
+			$isValid = true;
+			foreach($elements as $element) {
+				if(!($element['valid'] ?? true)) {
+					$isValid = false;
+				}
+			}
+			$data['valid'] = $isValid;
+		}
+		return $data;
 	}
 
 	/**
