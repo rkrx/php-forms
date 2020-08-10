@@ -3,7 +3,7 @@ namespace Forms\Form;
 
 use Forms\Common\ComponentTestCase;
 use Forms\Form\Filtering\TrimFilter;
-use Forms\Form\Validation\IsRequired;
+use Forms\Form\Validation\Required;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
 class TextareaTest extends ComponentTestCase {
@@ -58,7 +58,7 @@ class TextareaTest extends ComponentTestCase {
 	protected function getComp(): Textarea {
 		$comp = $this->getFormElementProvider()->textarea(['a', 'b'], 'Field-Title', ['test' => 'abc']);
 		$comp->addFilter(new TrimFilter);
-		$comp->addValidator(new IsRequired);
+		$comp->addValidator(new Required);
 		return $comp;
 	}
 }

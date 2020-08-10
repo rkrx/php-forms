@@ -2,7 +2,7 @@
 namespace Forms\Form;
 
 use Forms\Form\Abstractions\AbstractContainerElement;
-use Forms\Form\Validation\IsRequired;
+use Forms\Form\Validation\Required;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
 
@@ -13,7 +13,7 @@ class ContainerTest extends TestCase {
 		$this->comp = new Container(['type' => 'is-container'],
 			new Container([],
 				(new Input(['root', 'a'], 'Test input', []))
-					->addValidator(new IsRequired)
+					->addValidator(new Required)
 			)
 		);
 	}

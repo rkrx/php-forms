@@ -3,7 +3,7 @@ namespace Forms\Form;
 
 use Forms\Common\ComponentTestCase;
 use Forms\Form\Filtering\TrimFilter;
-use Forms\Form\Validation\IsRequired;
+use Forms\Form\Validation\Required;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
 class InputTest extends ComponentTestCase {
@@ -58,7 +58,7 @@ class InputTest extends ComponentTestCase {
 	protected function getComp(): Input {
 		$comp = $this->getFormElementProvider()->input(['a', 'b'], 'Field-Title', ['test' => 'abc']);
 		$comp->addFilter(new TrimFilter);
-		$comp->addValidator(new IsRequired);
+		$comp->addValidator(new Required);
 		return $comp;
 	}
 }

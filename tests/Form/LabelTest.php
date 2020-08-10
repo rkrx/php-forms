@@ -2,8 +2,8 @@
 namespace Forms\Form;
 
 use Forms\Form\Filtering\TrimFilter;
-use Forms\Form\Validation\IsRequired;
-use Forms\Form\Validation\IsValidEmail;
+use Forms\Form\Validation\Required;
+use Forms\Form\Validation\ValidEmail;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
 
@@ -15,8 +15,8 @@ class LabelTest extends TestCase {
 		$this->comp = new Label('Title', ['some-attribute' => 'some-value'],
 			(new Input(['a', 'b'], 'Field-Title', ['test' => 'abc']))
 				->addFilter(new TrimFilter)
-				->addValidator(new IsValidEmail())
-				->addValidator(new IsRequired())
+				->addValidator(new ValidEmail())
+				->addValidator(new Required())
 		);
 	}
 

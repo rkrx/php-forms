@@ -4,11 +4,11 @@ namespace Forms\Form\Validation;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
 
-class IsNonEmptyStringTest extends TestCase {
-	private IsRequired $validator;
+class NonEmptyStringTest extends TestCase {
+	private Required $validator;
 
 	public function setUp(): void {
-		$this->validator = new IsRequired();
+		$this->validator = new Required();
 	}
 
 	public function testRender() {

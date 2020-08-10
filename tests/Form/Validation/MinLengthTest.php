@@ -4,11 +4,11 @@ namespace Forms\Form\Validation;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
 
-class HasMinLengthTest extends TestCase {
-	private HasMinLength $validator;
+class MinLengthTest extends TestCase {
+	private MinLength $validator;
 
 	public function setUp(): void {
-		$this->validator = new HasMinLength(3);
+		$this->validator = new MinLength(3);
 	}
 
 	public function testRender() {

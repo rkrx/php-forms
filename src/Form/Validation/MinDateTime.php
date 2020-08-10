@@ -1,22 +1,23 @@
 <?php
 namespace Forms\Form\Validation;
 
+use DateTime;
 use Forms\Form\Common\RecursiveStructureAccessTrait;
 use Forms\Form\Validation\Abstractions\Validator;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
-class HasMinLength implements Validator {
+class MinDateTime implements Validator {
 	use RecursiveStructureAccessTrait;
 
-	private int $length;
+	private DateTime $date;
 	private string $message;
 
 	/**
-	 * @param int $length
+	 * @param string|DateTime $date
 	 * @param string $message
 	 */
-	public function __construct(int $length, string $message = 'Minimum length of {length} missed by {missedBy} characters') {
-		$this->length = $length;
+	public function __construct($date, string $message = 'The minimum date for this field {minValue} was not reached') {
+		$this->date = is_string($date) ? date_create_immutable($date) : $date;
 		$this->message = $message;
 	}
 
@@ -28,7 +29,7 @@ class HasMinLength implements Validator {
 	 * @return array
 	 */
 	public function render(array $data): array {
-		$data['attributes']['minLength'] = $data['attributes']['minLength'] ?? $this->length;
+		$data['attributes']['minDateTime'] = $data['attributes']['minDateTime'] ?? $this->date;
 		return $data;
 	}
 
@@ -41,8 +42,8 @@ class HasMinLength implements Validator {
 		$value = self::getString($data, $path);
 		if(($value ?? '') !== '') {
 			$actualLength = mb_strlen($value, 'UTF-8');
-			if($actualLength < $this->length) {
-				return [new ValidationResultMessage($this->message, ['length' => $this->length, 'actualLength' => $actualLength, 'missedBy' => $this->length - $actualLength])];
+			if($actualLength < $this->date) {
+				return [new ValidationResultMessage($this->message, ['maxValue' => $this->date])];
 			}
 		}
 		return [];

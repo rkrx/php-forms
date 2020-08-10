@@ -4,11 +4,11 @@ namespace Forms\Form\Validation;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
 
-class IsValidEmailTest extends TestCase {
-	private IsValidEmail $validator;
+class ValidEmailTest extends TestCase {
+	private ValidEmail $validator;
 
 	public function setUp(): void {
-		$this->validator = new IsValidEmail();
+		$this->validator = new ValidEmail();
 	}
 
 	public function testRender() {

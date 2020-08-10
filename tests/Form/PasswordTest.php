@@ -2,7 +2,7 @@
 namespace Forms\Form;
 
 use Forms\Common\ComponentTestCase;
-use Forms\Form\Validation\IsRequired;
+use Forms\Form\Validation\Required;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
 class PasswordTest extends ComponentTestCase {
@@ -58,7 +58,7 @@ class PasswordTest extends ComponentTestCase {
 
 	protected function getComp(): Password {
 		$comp = $this->getFormElementProvider()->password(['a', 'b'], 'Field-Title', ['test' => 'abc']);
-		$comp->addValidator(new IsRequired);
+		$comp->addValidator(new Required);
 		return $comp;
 	}
 }

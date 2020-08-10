@@ -4,11 +4,11 @@ namespace Forms\Form\Validation;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
 
-class HasMaxDateTimeTest extends TestCase {
-	private HasMaxLength $validator;
+class MinValueTest extends TestCase {
+	private MaxLength $validator;
 
 	public function setUp(): void {
-		$this->validator = new HasMaxLength(3);
+		$this->validator = new MaxLength(3);
 	}
 
 	public function testRender() {

@@ -5,18 +5,18 @@ use Forms\Form\Common\RecursiveStructureAccessTrait;
 use Forms\Form\Validation\Abstractions\Validator;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
-class HasMaxValue implements Validator {
+class MaxLength implements Validator {
 	use RecursiveStructureAccessTrait;
 
-	private int $value;
+	private int $length;
 	private string $message;
 
 	/**
-	 * @param float $value
+	 * @param int $length
 	 * @param string $message
 	 */
-	public function __construct(float $value, string $message = 'The maximum value for this field {minValue} was not reached') {
-		$this->value = $value;
+	public function __construct(int $length, string $message = 'Maximum length of {length} exceeded by {exceededBy} characters') {
+		$this->length = $length;
 		$this->message = $message;
 	}
 
@@ -28,7 +28,7 @@ class HasMaxValue implements Validator {
 	 * @return array
 	 */
 	public function render(array $data): array {
-		$data['attributes']['maxValue'] = $data['attributes']['maxValue'] ?? $this->value;
+		$data['attributes']['maxLength'] = $data['attributes']['maxLength'] ?? $this->length;
 		return $data;
 	}
 
@@ -41,8 +41,8 @@ class HasMaxValue implements Validator {
 		$value = self::getString($data, $path);
 		if(($value ?? '') !== '') {
 			$actualLength = mb_strlen($value, 'UTF-8');
-			if($actualLength < $this->value) {
-				return [new ValidationResultMessage($this->message, ['maxValue' => $this->value])];
+			if($actualLength > $this->length) {
+				return [new ValidationResultMessage($this->message, ['length' => $this->length, 'actualLength' => $actualLength, 'exceededBy' => $actualLength - $this->length])];
 			}
 		}
 		return [];

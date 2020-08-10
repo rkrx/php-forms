@@ -5,17 +5,17 @@ use Forms\Form\Common\RecursiveStructureAccessTrait;
 use Forms\Form\Validation\Abstractions\Validator;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
-class HasMinValue implements Validator {
+class MinValue implements Validator {
 	use RecursiveStructureAccessTrait;
 
-	private int $value;
+	private float $value;
 	private string $message;
 
 	/**
 	 * @param float $value
 	 * @param string $message
 	 */
-	public function __construct(int $value, string $message = 'The minimum value for this field {minValue} was not reached') {
+	public function __construct(float $value, string $message = 'The minimum value for this field {minValue} was not reached') {
 		$this->value = $value;
 		$this->message = $message;
 	}

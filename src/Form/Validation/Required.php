@@ -1,19 +1,14 @@
 <?php
 namespace Forms\Form\Validation;
 
-use Forms\Form\Common\RecursiveStructureAccessTrait;
+use Forms\Form\Common\RecursiveStructureAccess as Arr;
 use Forms\Form\Validation\Abstractions\Validator;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
-class IsValidEmail implements Validator {
-	use RecursiveStructureAccessTrait;
-
+class Required implements Validator {
 	private string $message;
 
-	/**
-	 * @param string $message
-	 */
-	public function __construct(string $message = 'Invalid email address pattern') {
+	public function __construct(string $message = 'Input required') {
 		$this->message = $message;
 	}
 
@@ -25,6 +20,7 @@ class IsValidEmail implements Validator {
 	 * @return array
 	 */
 	public function render(array $data): array {
+		$data['attributes']['required'] = $data['attributes']['required'] ?? true;
 		return $data;
 	}
 
@@ -34,11 +30,12 @@ class IsValidEmail implements Validator {
 	 * @return ValidationResultMessage[]
 	 */
 	public function __invoke(array $data, array $path): array {
-		if(self::has($data, $path)) {
-			$value = self::get($data, $path);
-			if(!is_string($value) || filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
-				return [new ValidationResultMessage($this->message)];
-			}
+		if(!Arr::has($data, $path)) {
+			return [new ValidationResultMessage($this->message)];
+		}
+		$value = Arr::get($data, $path);
+		if(!is_scalar($value) || trim($value) === '') {
+			return [new ValidationResultMessage($this->message)];
 		}
 		return [];
 	}
