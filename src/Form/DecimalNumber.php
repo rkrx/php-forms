@@ -2,8 +2,11 @@
 namespace Forms\Form;
 
 use Forms\Form\Abstractions\AbstractInput;
+use Forms\Form\Common\Builder;
 use Forms\Form\Common\InvalidValue;
 use Forms\Form\Common\RecursiveStructureAccessTrait;
+use Forms\Form\Validation\MaxValue;
+use Forms\Form\Validation\MinValue;
 use Forms\Form\Validation\Result\ElementValidationResult;
 use Forms\Form\Validation\Result\ValidationResultMessage;
 
@@ -22,6 +25,10 @@ class DecimalNumber extends AbstractInput {
 	 */
 	public function __construct(array $fieldNamePath, string $caption, string $decimalSeparator = '.', int $decimalPrecision = null, array $attributes = []) {
 		parent::__construct($fieldNamePath, $caption, $attributes);
+		Builder::attrs($attributes, [
+			'min', fn (bool $len) => $this->addValidator(new MinValue($len)),
+			'max', fn (bool $len) => $this->addValidator(new MaxValue($len))
+		]);
 		$this->decimalSeparator = $decimalSeparator;
 		$this->decimalPrecision = $decimalPrecision;
 	}

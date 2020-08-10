@@ -23,7 +23,7 @@ use Forms\Form;
 
 $section = new Form\Section('Section', ['xyz' => 123],
     new Form\Checkbox(['data', 'active'], 'Active'),
-    new Form\Input(['data', 'name'], 'Name'),
+    new Form\Input(['data', 'name'], 'Name', ['required' => true, 'minlenght' => 5, 'maxlength' => 64]),
     new Form\Email(['data', 'email'], 'Email')
 );
 ```
@@ -50,14 +50,20 @@ print_r(json_encode($structure, JSON_PRETTY_PRINT));
         "title": "Name",
         "value": null,
         "messages": [],
-        "attributes": [],
+        "attributes": {
+            "required": true,
+            "minlenght": 5,
+            "maxlength": 64
+        },
         "type": "input"
     }, {
         "name": ["data", "email"],
         "title": "Email",
         "value": null,
         "messages": [],
-        "attributes": [],
+        "attributes": [
+            "required": true
+        ],
         "type": "email"
     }],
     "attributes": {"xyz": 123},

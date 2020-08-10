@@ -5,23 +5,24 @@ use Forms\Form\Validation\Result\ValidationResultMessage;
 use PHPUnit\Framework\TestCase;
 
 class MinDateTimeTest extends TestCase {
-	private MaxLength $validator;
+	private MinDateTime $validator;
 
 	public function setUp(): void {
-		$this->validator = new MaxLength(3);
+		$this->validator = new MinDateTime('2020-01-01');
 	}
 
 	public function testRender() {
-		self::assertEquals(['xxx' => 123, 'attributes' => ['maxLength' => 3]], $this->validator->render(['xxx' => 123]));
+		self::assertEquals(['xxx' => 123, 'attributes' => ['minDateTime' => '2020-01-01 00:00']], $this->validator->render(['xxx' => 123]));
 	}
 
 	public function testSuccesssfulInvoke() {
-		self::assertEmpty($this->validator->__invoke(['a' => ['b' => 'abc']], ['a', 'b']));
+		self::assertEquals([], $this->validator->__invoke(['a' => ['b' => '2030-01-01']], ['a', 'b']));
+		self::assertEquals([], $this->validator->__invoke(['a' => ['b' => '2020-01-01']], ['a', 'b']));
 	}
 
 	public function testFailingInvoke() {
-		$expectedMessage = 'Maximum length of {length} exceeded by {exceededBy} characters';
-		$expectedParams = ['length' => 3, 'actualLength' => 4, 'exceededBy' => 1];
-		self::assertEquals([new ValidationResultMessage($expectedMessage, $expectedParams)], $this->validator->__invoke(['a' => ['b' => 'abcd']], ['a', 'b']));
+		$expectedMessage = 'The minimum date for this field {minDateTime} was not reached';
+		$expectedParams = ['minDateTime' => '2020-01-01 00:00'];
+		self::assertEquals([new ValidationResultMessage($expectedMessage, $expectedParams)], $this->validator->__invoke(['a' => ['b' => '2010-01-01']], ['a', 'b']));
 	}
 }

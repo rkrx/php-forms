@@ -2,7 +2,7 @@
 namespace Forms\Form;
 
 use Forms\Form\Common\RecursiveStructureAccessTrait;
-use Forms\Form\Validation\IsValidEmail;
+use Forms\Form\Validation\ValidEmail;
 
 class Email extends Input {
 	use RecursiveStructureAccessTrait;
@@ -14,7 +14,7 @@ class Email extends Input {
 	 */
 	public function __construct(array $fieldNamePath, string $caption, array $attributes = []) {
 		parent::__construct($fieldNamePath, $caption, $attributes);
-		$this->addValidator(new IsValidEmail);
+		$this->addValidator(new ValidEmail);
 	}
 
 	/**

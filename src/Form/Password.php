@@ -1,10 +1,9 @@
 <?php
 namespace Forms\Form;
 
-use Forms\Form\Abstractions\AbstractInput;
 use Forms\Form\Common\RecursiveStructureAccessTrait;
 
-class Password extends AbstractInput {
+class Password extends Input {
 	use RecursiveStructureAccessTrait;
 
 	public function convert(array $data): array {
